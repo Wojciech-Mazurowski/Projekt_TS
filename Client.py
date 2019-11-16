@@ -21,7 +21,7 @@ print("\nPolaczono z serwerem. Twoj identyfikator sesji to: ", *decodeID, sep=""
 #gwiazdka i ten sep musi byc, bo regex po wyciagnieciu danej wartosci wrzuca ja do listy
 # i wtedy wyswietla z nawiasami kwadratowymi i rownoscia, dzieki temu wyswietla tylko sama wartosc
 
-
+#x
 def switchOperation():
     print("\n0. Zakonczenie dzialania programu.")
     print("1. Historia obliczen przez podanie ID sesji.")
