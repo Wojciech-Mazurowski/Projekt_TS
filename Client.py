@@ -80,9 +80,6 @@ while 1:
 
     operation = switchOperation()
 
-    operationCode = "OP=dodawaj$"
-    serversocket.send(bytes(operationCode, 'utf-8'))
-
     if operation == "FN":
         print ("Zakonczono dzialanie programu, rozlaczono z serwerem.")
         serversocket.close()

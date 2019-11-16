@@ -99,6 +99,7 @@ while 1:
     operationCode2 = str(receivedOperationCode2, 'utf-8')
     decodeOperationCode(operationCode2)
 
+
     while 1:
         operation = switchOperations()
 
