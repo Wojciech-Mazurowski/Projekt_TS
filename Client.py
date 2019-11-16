@@ -1,31 +1,33 @@
 import re
 import socket
 from re import split
-
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #utworzenie gniazda
-connected = False
-while not connected:
-        try:
-            serversocket.connect((socket.gethostname(), 1234)) # nawiazanie polaczenia
-            connected = True
-        except Exception as e:
-            pass    # jezeli nie bylo polaczenia to wywalalo blad, to pozwoli na "czekanie" klienta az nastapi polaczenie
+def connectingg():
 
-id = serversocket.recv(16)
-idstr = str(id, 'utf8') #konwertowanie id sesji do formatu utf-8
-id = str(idstr)
-decodeID = re.findall(r'\d+', id) # za pomoca regexu wyciaganie liczby ze stringa ID=tutajidsesji$
+    connected = False
+    while not connected:
+            try:
+                serversocket.connect((socket.gethostname(), 1234)) # nawiazanie polaczenia
+                connected = True
+            except Exception as e:
+                pass    # jezeli nie bylo polaczenia to wywalalo blad, to pozwoli na "czekanie" klienta az nastapi polaczenie
+
+    id = serversocket.recv(16)
+    idstr = str(id, 'utf8') #konwertowanie id sesji do formatu utf-8
+    id = str(idstr)
+    decodeID = re.findall(r'\d+', id) # za pomoca regexu wyciaganie liczby ze stringa ID=tutajidsesji$
 
 
-print("\nPolaczono z serwerem. Twoj identyfikator sesji to: ", *decodeID, sep="")
-#gwiazdka i ten sep musi byc, bo regex po wyciagnieciu danej wartosci wrzuca ja do listy
-# i wtedy wyswietla z nawiasami kwadratowymi i rownoscia, dzieki temu wyswietla tylko sama wartosc
-
+    print("\nPolaczono z serwerem. Twoj identyfikator sesji to: ", *decodeID, sep="")
+    #gwiazdka i ten sep musi byc, bo regex po wyciagnieciu danej wartosci wrzuca ja do listy
+    # i wtedy wyswietla z nawiasami kwadratowymi i rownoscia, dzieki temu wyswietla tylko sama wartosc
+connectingg()
 def switchOperation():
     print("\n0. Zakonczenie dzialania programu.")
     print("1. Historia obliczen przez podanie ID sesji.")
     print("2. Historia obliczen przez podanie ID obliczen.")
     print("3. Wykonywanie operacji matematycznych.")
+    print("4. Polacz sie ponownie.")
     choice = input("\nWybierz operacje do wykonania (podaj numer): ")
 
     return {
@@ -33,6 +35,7 @@ def switchOperation():
         '1': "HS",  # wyswietlenie historii obliczen przez ID sesji
         '2': "HO",  # odejmowanie historii obliczen przez ID obliczen
         '3': "OB",  # wykonywanie obliczen
+        '4': "RE",  # relog bo pewnie potrzebny na rzecz sprawdzania
     }.get(choice, "Podano nieprawidlowy numer operacji.")
 
 
@@ -117,5 +120,8 @@ while 1:
     elif operation == "OB":
         print("Wykonywanie operacji matematycznych.")
         switchMathOperation()
+    elif operation == "RE":
+        print("To jescze nie dziala byq")
+        #connectingg()
     else:
         print("\nPodano nieprawidlowy numer operacji, sprobuj jeszcze raz...")
