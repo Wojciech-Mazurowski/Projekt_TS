@@ -35,6 +35,19 @@ def switchMathOperation():
     print("1. Dodawanie\n 2. Odejmowanie\n 3. Mnozenie\n 4. Dzielenie\n 5. Potegowanie\n 6. Logarytmowanie\n")
     choice = input("\nWybierz operacje matematyczna, ktora chcesz wykonac (podaj numer): ")
 
+    if choice == 1:
+        print("\nWybrano dodawanie.")
+    if choice == 2:
+        print("\nWybrano odejmowanie.")
+    if choice == 3:
+        print("\nWybrano mnozenie.")
+    if choice == 4:
+        print("\nWybrano dzielenie.")
+    if choice == 5:
+        print("\nWybrano potegowanie.")
+    if choice == 6:
+        print("\nWybrano logarytmowanie.")
+
     return {
         '1': "DO", #dodawanie
         '2': "OD", #odejmowanie
@@ -45,15 +58,18 @@ def switchMathOperation():
     }.get(choice, "Podano nieprawidlowy numer operacji.")
 
 
+def readNumbers():
+    a = input("\nPodaj wartosc pierwszej liczby: ")
+    b = input("Podaj wartosc drugiej liczby: ")
+
+
 def printMathOperationsHistorySession():
-    print('\ndrukowanie historii przez id sesji')
+    print('\nTu bedzie drukowanie historii przez id sesji')
 
 
 def printMathOperationsHistoryOperationID():
-    print('\ndrukowanie historii przez id operacji')
+    print('\nTu bedzie drukowanie historii przez id operacji')
 
-
-# Wybor operacji do wykonania
 
 while 1:
     operation = switchOperation()
@@ -71,4 +87,4 @@ while 1:
         print("Wykonywanie operacji matematycznych.")
         switchMathOperation()
     else:
-        print("Podano nieprawidlowy numer operacji, sprobuj jeszcze raz...")
+        print("\nPodano nieprawidlowy numer operacji, sprobuj jeszcze raz...")
