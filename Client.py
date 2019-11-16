@@ -3,7 +3,13 @@ import socket
 from re import split
 
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #utworzenie gniazda
-serversocket.connect((socket.gethostname(), 1234)) # nawiazanie polaczenia
+connected = False
+while not connected:
+        try:
+            serversocket.connect((socket.gethostname(), 1234)) # nawiazanie polaczenia
+            connected = True
+        except Exception as e:
+            pass    # jezeli nie bylo polaczenia to wywalalo blad, to pozwoli na "czekanie" klienta az nastapi polaczenie
 
 id = serversocket.recv(16)
 idstr = str(id, 'utf8') #konwertowanie id sesji do formatu utf-8
@@ -34,20 +40,38 @@ def switchOperation():
 def switchMathOperation():
     print("1. Dodawanie\n 2. Odejmowanie\n 3. Mnozenie\n 4. Dzielenie\n 5. Potegowanie\n 6. Logarytmowanie\n")
     choice = input("\nWybierz operacje matematyczna, ktora chcesz wykonac (podaj numer): ")
-
-    if choice == 1:
-        print("\nWybrano dodawanie.")
-    if choice == 2:
-        print("\nWybrano odejmowanie.")
-    if choice == 3:
-        print("\nWybrano mnozenie.")
-    if choice == 4:
-        print("\nWybrano dzielenie.")
-    if choice == 5:
-        print("\nWybrano potegowanie.")
-    if choice == 6:
-        print("\nWybrano logarytmowanie.")
-
+    if choice == "1":
+        print("\nWybrano dodawanie:")
+        z1 = int(input("Wprowadz pierwsza liczbe:"))
+        z2 = int(input("Wprowadz druga liczbe:"))
+    if choice == "2":
+        print("\nWybrano odejmowanie:")
+        z1 = int(input("Wprowadz pierwsza liczbe:"))
+        z2 = int(input("Wprowadz druga liczbe:"))
+    if choice == "3":
+        print("\nWybrano mnozenie:")
+        z1 = int(input("Wprowadz pierwsza liczbe:"))
+        z2 = int(input("Wprowadz druga liczbe:"))
+    if choice == "4":
+        print("\nWybrano dzielenie:")
+        z1 = int(input("Wprowadz pierwsza liczbe:"))
+        z2 = int(input("Wprowadz druga liczbe:"))
+        while z2 == 0:
+            print("Nie wolno dzielic przez 0")
+            z2 = int(input("Podaj liczbe rozna od 0"))
+    if choice == "5":
+        print("\nWybrano potegowanie:")
+        z1 = int(input("Wprowadz pierwsza liczbe:"))
+        z2 = int(input("Wprowadz druga liczbe:"))
+    if choice == "6":
+        print("\nWybrano logarytmowanie:")
+        z1 = int(input("Wprowadz podstawe:"))
+        while z1 <= 0 or z1 == 1:
+            print("\nPodstawa logarytmu nie moze byc mniejsza lub rowna od 0 ani rowna 1:")
+            z1 = int(input("wprowadz inna podstawe"))
+        z2 = int(input("Wprowadz liczbe do logarytmowania:"))
+        while z2 <= 0:
+            z2 = int(input("Liczba logarytmowana musi byc dodatnia, podaj inna liczbe"))
     return {
         '1': "DO", #dodawanie
         '2': "OD", #odejmowanie
@@ -58,17 +82,21 @@ def switchMathOperation():
     }.get(choice, "Podano nieprawidlowy numer operacji.")
 
 
-def readNumbers():
-    a = input("\nPodaj wartosc pierwszej liczby: ")
-    b = input("Podaj wartosc drugiej liczby: ")
+#def readNumbers():
+#    a = input("\nPodaj wartosc pierwszej liczby: ") nie zauwzylem tego, zrobilem wyzej xd
+#    b = input("Podaj wartosc drugiej liczby: ")
 
 
 def printMathOperationsHistorySession():
-    print('\nTu bedzie drukowanie historii przez id sesji')
+    ID = input("podaj ID sesji:")
 
 
 def printMathOperationsHistoryOperationID():
-    print('\nTu bedzie drukowanie historii przez id operacji')
+    IDO = input("podaj ID operacji")
+    currentID = 0
+    SID = 0
+    if currentID != SID:
+        print("To nie twoja sejsa")
 
 
 while 1:
