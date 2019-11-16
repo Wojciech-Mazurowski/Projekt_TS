@@ -1,0 +1,8 @@
+OP - pole operacji
+ST - pole statusu /nie za bardzo wiem do czego?
+ID - pole identyfikatora sesji
+IO - pole identyfikatora obliczenia
+Z1 - pole pierwszej zmiennej do obliczen
+Z2 - pole drugiej zmiennej do obliczen
+
+kody obliczen: /tutaj dodaj jak uwazasz, ja zrobilem tam pierwsze dwie litery np dodawanie "do" ale chyba lepiej czytelniej to zrobic
