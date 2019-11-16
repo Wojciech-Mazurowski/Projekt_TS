@@ -12,6 +12,9 @@ moga tak byc w/e
 tutaj niezbyt oryginalnie ale
 
 SID - stare ID, zeby mozna bylo sprawdzic przy sprawdzaniu histori po ID operacji, czy ta operacja zostala wykonana przez tego uzytkownika nwm jescze moze cos zle mysle ale chyba potrzebne XD
-IDO - id operacji, ale to bede ci je wysylal wiec to sobie nazwiesz jak chcesz
-IDS - id sesji ktorej chcemy zobaczyc historie
+IS - id sesji ktorej chcemy zobaczyc historie
 
+
+
+przyklad naglowka dla potegowania i liczb z1 = 4 i z2 = 5 : OP#PO$$OD#null$$Z1#4$$Z2#5$$
+OD to odpowiedz w kliencie jest pusta u ciebie to by byl onp OD#OK albo OD#NK  (od nie ok cokolwiek xd)

@@ -90,11 +90,11 @@ def switchMathOperation():
 
 
 def printMathOperationsHistorySession():
-    IDS = input("podaj ID sesji:")
+    IS = input("podaj ID sesji:")
 
 
 def printMathOperationsHistoryOperationID():
-    IDO = input("podaj ID operacji")
+    IO = input("podaj ID operacji")
 
 
 
