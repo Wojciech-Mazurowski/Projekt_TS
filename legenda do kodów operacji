@@ -15,7 +15,3 @@ SID - stare ID, zeby mozna bylo sprawdzic przy sprawdzaniu histori po ID operacj
 IDO - id operacji, ale to bede ci je wysylal wiec to sobie nazwiesz jak chcesz
 IDS - id sesji ktorej chcemy zobaczyc historie
 
- Bo nie jestem pewny, ale to zrozumialem tak :
- uztkownik dostaje ID, kazda operacja przechowuje jego ID , id operacji, liczby uzyte i wynik.
- Uzytkownik moze sie dostac do tych operacji podajac id operacji lub id tego uzytkownika.
- jak podajemy id operacji to musimy sprawdzic ktore operacje maja id tego uzytkownika ktory jest aktualnie podlaczony.
