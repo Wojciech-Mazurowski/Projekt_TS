@@ -21,6 +21,8 @@ def connectingg():
     print("\nPolaczono z serwerem. Twoj identyfikator sesji to: ", *decodeID, sep="")
     #gwiazdka i ten sep musi byc, bo regex po wyciagnieciu danej wartosci wrzuca ja do listy
     # i wtedy wyswietla z nawiasami kwadratowymi i rownoscia, dzieki temu wyswietla tylko sama wartosc
+z1=0
+z2=0
 connectingg()
 def switchOperation():
     print("\n0. Zakonczenie dzialania programu.")
@@ -40,6 +42,8 @@ def switchOperation():
 
 
 def switchMathOperation():
+    global z1
+    global z2
     print("1. Dodawanie\n 2. Odejmowanie\n 3. Mnozenie\n 4. Dzielenie\n 5. Potegowanie\n 6. Logarytmowanie\n")
     choice = input("\nWybierz operacje matematyczna, ktora chcesz wykonac (podaj numer): ")
     if choice == "1":
@@ -96,14 +100,20 @@ def printMathOperationsHistorySession():
 def printMathOperationsHistoryOperationID():
     IO = input("podaj ID operacji")
 
+def CreateAndSendMessage(Operacja):
+    global z1
+    global z2
+    wiadomosc = "OP#" + Operacja + "$$OD#null$$" + "Z1#" + str(z1) + "$$Z2#" + str(z2) + "$$"
+    serversocket.send(bytes(wiadomosc, 'utf-8'))
+
 
 
 while 1:
-    operationCode = "OP=dodawaj$" #testowo wysylam
+    '''operationCode = "OP=dodawaj$" #testowo wysylam
     serversocket.send(bytes(operationCode, 'utf-8')) #j.w.
 
     operationCode2 = "Z1=15$"  # testowo wysylam
-    serversocket.send(bytes(operationCode2, 'utf-8'))  # j.w.
+    serversocket.send(bytes(operationCode2, 'utf-8'))  # j.w.'''
 
     operation = switchOperation()
 
@@ -119,7 +129,7 @@ while 1:
         printMathOperationsHistoryOperationID()
     elif operation == "OB":
         print("Wykonywanie operacji matematycznych.")
-        switchMathOperation()
+        CreateAndSendMessage(switchMathOperation())
     elif operation == "RE":
         print("To jescze nie dziala byq")
         #connectingg()
