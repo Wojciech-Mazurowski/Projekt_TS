@@ -1,7 +1,7 @@
 OP - pole operacji
-ST - pole statusu /nie za bardzo wiem do czego?
+ST - pole statusu /nie za bardzo wiem do czego? Moze do zamykania polaczenia?
 ID - pole identyfikatora sesji
-IO - pole identyfikatora obliczenia
+IO - pole identyfikatora obliczeni
 Z1 - pole pierwszej zmiennej do obliczen
 Z2 - pole drugiej zmiennej do obliczen
 

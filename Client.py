@@ -2,10 +2,10 @@ import re
 import socket
 from re import split
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #utworzenie gniazda
-s.connect((socket.gethostname(), 1234)) # nawiazanie polaczenia
+serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #utworzenie gniazda
+serversocket.connect((socket.gethostname(), 1234)) # nawiazanie polaczenia
 
-id = s.recv(16)
+id = serversocket.recv(16)
 idstr = str(id, 'utf8') #konwertowanie id sesji do formatu utf-8
 id = str(idstr)
 decodeID = re.findall(r'\d+', id) # za pomoca regexu wyciaganie liczby ze stringa ID=tutajidsesji$
@@ -72,10 +72,20 @@ def printMathOperationsHistoryOperationID():
 
 
 while 1:
+    operationCode = "OP=dodawaj$" #testowo wysylam
+    serversocket.send(bytes(operationCode, 'utf-8')) #j.w.
+
+    operationCode2 = "Z1=15$"  # testowo wysylam
+    serversocket.send(bytes(operationCode2, 'utf-8'))  # j.w.
+
     operation = switchOperation()
+
+    operationCode = "OP=dodawaj$"
+    serversocket.send(bytes(operationCode, 'utf-8'))
 
     if operation == "FN":
         print ("Zakonczono dzialanie programu, rozlaczono z serwerem.")
+        serversocket.close()
         break
     elif operation == "HS":
         print("Wyswietlenie historii obliczen przez ID sesji.")
