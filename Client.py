@@ -65,7 +65,7 @@ while 1:
         print("Wyswietlenie historii obliczen przez ID sesji.")
         printMathOperationsHistorySession()
     elif operation == "HO":
-        print("Wyswietlenie historii obliczen przez ID obliczen.")
+        print("Wyswietlenie historii obliczens przez ID obliczen.")
         printMathOperationsHistoryOperationID()
     elif operation == "OB":
         print("Wykonywanie operacji matematycznych.")

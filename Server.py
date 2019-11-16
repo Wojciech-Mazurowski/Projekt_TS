@@ -6,8 +6,7 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # utworzenie gniazda
 s.bind((socket.gethostname(), 1234))  # dowiazanie do portu 8888
 s.listen(5)
 
-op = "default"  # pole operacji
-st = "default"  # pole statusu
+
 ido = 0  # identyfikator obliczen
 
 
