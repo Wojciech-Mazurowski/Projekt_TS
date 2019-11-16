@@ -88,14 +88,13 @@ def switchMathOperation():
 
 
 def printMathOperationsHistorySession():
-    ID = input("podaj ID sesji:")
+    IDS = input("podaj ID sesji:")
 
 
 def printMathOperationsHistoryOperationID():
     IDO = input("podaj ID operacji")
-    currentID = 0
     SID = 0
-    if currentID != SID:
+    if id == SID:
         print("To nie twoja sejsa")
 
 
