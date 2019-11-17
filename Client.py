@@ -4,6 +4,7 @@ from re import split
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #utworzenie gniazda
 def connectingg():
     global iddod, idode, idmno, iddzi, idpot, idlog
+    global id
     iddod=0
     idode=0
     idmno=0
@@ -130,8 +131,10 @@ def IDO(Operacja):
 def CreateAndSendMessage(Operacja):
     global z1
     global z2
-    wiadomosc = "IS#" + id + "$$IO#"+ Operacja + str(IDO(Operacja)) + "OP#" + Operacja + "$$OD#null$$" + "Z1#" + str(z1) + "$$Z2#" + str(z2) + "$$"
-    serversocket.send(bytes(wiadomosc, 'utf-8'))
+    global id
+    wiadomosc = "IS#" + str(id) + "$$IO#"+ Operacja + str(IDO(Operacja)) + "OP#" + Operacja + "$$OD#null$$" + "Z1#" + str(z1) + "$$Z2#" + str(z2) + "$$"
+    print(wiadomosc)
+    #serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 #  przykladowy naglowek: IS#1225$$IO#DO5$$OP#DO$$OD#null$$Z1#5Z2#4
 
