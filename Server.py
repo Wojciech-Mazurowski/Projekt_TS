@@ -156,6 +156,9 @@ def listenIncomingRequest():
     return operationCode
 
 
+def sendIDsessionToClient():
+    clientsocket.send(bytes(str(setID()), 'utf8'))
+
 
 def sendAnswerForRequest():
     clientsocket.send(bytes(str(executeRequest()), 'utf8'))  # wysylanie id sesji do klienta
@@ -168,7 +171,7 @@ while 1:
     clientsocket, address = serversocket.accept()  # odebranie polaczenia od klienta i akceptacja
     print(f'Polaczono z: ', address)
 
-    clientsocket.send(bytes(str(setID()), 'utf8')) #wysylanie id sesji do klienta
+    sendIDsessionToClient()  #wysylanie id sesji do klienta
     operationCode = listenIncomingRequest() #nasluchiwanie na przyjscie zapytania
     decodeOperationCode(operationCode)
     sendAnswerForRequest()

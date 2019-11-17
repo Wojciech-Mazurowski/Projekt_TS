@@ -159,6 +159,6 @@ while 1:
     else:
         print("\nPodano nieprawidlowy numer operacji, sprobuj jeszcze raz...")
 
-    serverAnswer = serversocket.recv(1024)
+    serverAnswer = serversocket.recv(1024) #naraze tu dalem odczyt odpowiedzi od serwera, potem trzeba to upakowac w funkcje jakos
     serverAnswer = str(serverAnswer, 'utf-8')
     print("\nOdpowiedz od serwera: " + serverAnswer)
