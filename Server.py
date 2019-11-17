@@ -168,29 +168,32 @@ def sendAnswerForRequest():
 
 
 while 1:
+
     clientsocket, address = serversocket.accept()  # odebranie polaczenia od klienta i akceptacja
     print(f'Polaczono z: ', address)
-
-    sendIDsessionToClient()  #wysylanie id sesji do klienta
-    operationCode = listenIncomingRequest() #nasluchiwanie na przyjscie zapytania
-    decodeOperationCode(operationCode)
-    sendAnswerForRequest()
-
+    sendIDsessionToClient()  # wysylanie id sesji do klienta
     while 1:
-        operation = switchOperations()
+        wybor = input("1.Nawiaz poloczenie, 2.Operacje:")
+        if wybor == "1":
+            while 1:
+                operationCode = listenIncomingRequest()  # nasluchiwanie na przyjscie zapytania
+                decodeOperationCode(operationCode)
+                sendAnswerForRequest()
+        if wybor == "2":
+            operation = switchOperations()
 
-        if operation == "FN":
-            print ("Zakonczono dzialanie programu, rozlaczono z klientem.")
-            clientsocket.close()
-            break
-        elif operation == "HS":
-            print("Wyswietlenie historii obliczen przez ID sesji.\n")
-            displayMathOperationsHistorySession()
-        elif operation == "HO":
-            print("Wyswietlenie historii obliczens przez ID obliczen.\n")
-            displayMathOperationsHistoryOperationID()
-        elif operation == "HA":
-            print("Wyswietlenie wszystkich wykonanych dotychczas operacji matematycznych.\n")
-            displayAllMathOperations()
-        else:
-            print("\nPodano nieprawidlowy numer operacji, sprobuj jeszcze raz...")
+            if operation == "FN":
+                print ("Zakonczono dzialanie programu, rozlaczono z klientem.")
+                clientsocket.close()
+                break
+            elif operation == "HS":
+                print("Wyswietlenie historii obliczen przez ID sesji.\n")
+                displayMathOperationsHistorySession()
+            elif operation == "HO":
+                print("Wyswietlenie historii obliczens przez ID obliczen.\n")
+                displayMathOperationsHistoryOperationID()
+            elif operation == "HA":
+                print("Wyswietlenie wszystkich wykonanych dotychczas operacji matematycznych.\n")
+                displayAllMathOperations()
+            else:
+                print("\nPodano nieprawidlowy numer operacji, sprobuj jeszcze raz...")
