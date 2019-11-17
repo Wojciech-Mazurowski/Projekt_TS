@@ -52,8 +52,42 @@ def switchOperation():
 def listenIncoming():
     receivedOperationCode = serversocket.recv(1024)
     operationCode = str(receivedOperationCode, 'utf-8')
-    print(operationCode)
+    decodeOperationCode(operationCode)
 
+
+def decodeOperationCode(operationCode):
+    global IS
+    global IO
+    global OP
+    global OD
+    global Z1
+    global Z2
+    if len(operationCode) >= 40:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
+        print("\nOtrzymany kod od serwea: " + operationCode)
+
+        splitedOperationCode = operationCode.split("$$", 5)
+        IS = splitedOperationCode[0]
+        IS = IS[3:]
+        print("id sesji: " + IS)
+        IO = splitedOperationCode[1]
+        IO = IO[3:]
+        print("id operacji mat: " + IO)
+        OP = splitedOperationCode[2]
+        OP = OP[3:]
+        print("operacja mat: " + OP)
+        OD = splitedOperationCode[3]
+        OD = OD[3:]
+        print("wynik dzialania: " + OD)
+        Z1 = splitedOperationCode[4]
+        Z1 = Z1[3:]
+        Z1 = int(Z1)
+        print("wart z1: " + str(Z1))
+        Z2 = splitedOperationCode[5]
+        Z2 = Z2[3:-2]
+        Z2 = int(Z2)
+        print("wart z2: " + str(Z2))
+    else:
+        print("tutaj bedzie dekodowanie zapytania o historie sesji/konkretengo dzialnia")
 
 
 def switchMathOperation():
@@ -111,11 +145,6 @@ def switchMathOperation():
     }.get(choice, "Podano nieprawidlowy numer operacji.")
 
 
-#def readNumbers():
-#    a = input("\nPodaj wartosc pierwszej liczby: ") nie zauwzylem tego, zrobilem wyzej xd
-#    b = input("Podaj wartosc drugiej liczby: ")
-
-
 def printMathOperationsHistorySession():
     IS = input("podaj ID sesji:")
 
@@ -144,18 +173,11 @@ def CreateAndSendMessage(Operacja):
     global id
     global decodeID
     wiadomosc = "IS=" + str(*decodeID) + "$$IO="+ Operacja + str(IDO(Operacja)) + "$$OP=" + Operacja + "$$OD=null$$" + "Z1=" + str(z1) + "$$Z2=" + str(z2) + "$$"
-    print(wiadomosc)
     serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 #  przykladowy naglowek: IS#1225$$IO#DO5$$OP#DO$$OD#null$$Z1#5Z2#4
 
 while 1:
-    '''operationCode = "OP=dodawaj$" #testowo wysylam
-    serversocket.send(bytes(operationCode, 'utf-8')) #j.w.
-
-    operationCode2 = "Z1=15$"  # testowo wysylam
-    serversocket.send(bytes(operationCode2, 'utf-8'))  # j.w.'''
-
     operation = switchOperation()
 
     if operation == "FN":
