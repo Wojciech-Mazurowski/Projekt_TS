@@ -12,22 +12,23 @@ def connectingg():
     idpot=0
     idlog = 0
     connected = False
+    print("Czekam na polaczenie...")
     while not connected:
             try:
                 serversocket.connect((socket.gethostname(), 1234)) # nawiazanie polaczenia
                 connected = True
+                id = serversocket.recv(16)
+                idstr = str(id, 'utf8')  # konwertowanie id sesji do formatu utf-8
+                id = str(idstr)
+                decodeID = re.findall(r'\d+', id)  # za pomoca regexu wyciaganie liczby ze stringa ID=tutajidsesji$
+                print("\nPolaczono z serwerem. Twoj identyfikator sesji to: ", *decodeID, sep="")
+                # gwiazdka i ten sep musi byc, bo regex po wyciagnieciu danej wartosci wrzuca ja do listy
+                # i wtedy wyswietla z nawiasami kwadratowymi i rownoscia, dzieki temu wyswietla tylko sama wartosc
             except Exception as e:
-                pass    # jezeli nie bylo polaczenia to wywalalo blad, to pozwoli na "czekanie" klienta az nastapi polaczenie
-
-    id = serversocket.recv(16)
-    idstr = str(id, 'utf8') #konwertowanie id sesji do formatu utf-8
-    id = str(idstr)
-    decodeID = re.findall(r'\d+', id) # za pomoca regexu wyciaganie liczby ze stringa ID=tutajidsesji$
+                pass
 
 
-    print("\nPolaczono z serwerem. Twoj identyfikator sesji to: ", *decodeID, sep="")
-    #gwiazdka i ten sep musi byc, bo regex po wyciagnieciu danej wartosci wrzuca ja do listy
-    # i wtedy wyswietla z nawiasami kwadratowymi i rownoscia, dzieki temu wyswietla tylko sama wartosc
+
 z1=0
 z2=0
 connectingg()
@@ -161,6 +162,7 @@ while 1:
         CreateAndSendMessage(switchMathOperation())
     elif operation == "RE":
         print("To jescze nie dziala byq")
-        #connectingg()
+        serversocket.close()
+        connectingg()
     else:
         print("\nPodano nieprawidlowy numer operacji, sprobuj jeszcze raz...")
