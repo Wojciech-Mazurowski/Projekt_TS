@@ -1,6 +1,6 @@
 OP - pole operacji
 ST - pole statusu /nie za bardzo wiem do czego? Moze do zamykania polaczenia?
-ID - pole identyfikatora sesji
+IS - pole identyfikatora sesji
 IO - pole identyfikatora obliczeni
 Z1 - pole pierwszej zmiennej do obliczen
 Z2 - pole drugiej zmiennej do obliczen
@@ -16,5 +16,5 @@ IS - id sesji ktorej chcemy zobaczyc historie
 
 
 
-przyklad naglowka dla potegowania i liczb z1 = 4 i z2 = 5 : OP#PO$$OD#null$$Z1#4$$Z2#5$$
+przyklad naglowka dla potegowania i liczb z1 = 4 i z2 = 5 : IS=123456$$IO=123456PO1$$OP=PO$$OD=null$$Z1=4$$Z2=5$$
 OD to odpowiedz w kliencie jest pusta u ciebie to by byl onp OD#OK albo OD#NK  (od nie ok cokolwiek xd)

@@ -2,8 +2,11 @@ import re
 import socket
 from re import split
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #utworzenie gniazda
-def connectingg():
 
+IO = "null" #domyslnie ustawiona wartosc dla identyfikatora operacji, jak przyjdzie odpowiedz to zostanie zmienione na wynik dzialania
+OD = "null" #j.w. pole odpowiedzi ustawione na null do momentu az przyjdzie odpowiedz
+
+def connectingg():
     connected = False
     while not connected:
             try:
@@ -17,13 +20,18 @@ def connectingg():
     id = str(idstr)
     decodeID = re.findall(r'\d+', id) # za pomoca regexu wyciaganie liczby ze stringa ID=tutajidsesji$
 
-
-    print("\nPolaczono z serwerem. Twoj identyfikator sesji to: ", *decodeID, sep="")
+    decodedID = str(decodeID)
+    decodedID = decodedID.replace('[','').replace(']','').strip() #usuwam nawiasy kwadratowe i cudzyslowia, bo id jest jako elem. listy
+    decodedID = decodedID.replace("'","").replace("'","").strip() #jw.
+    print("\nPolaczono z serwerem. Twoj identyfikator sesji to: ", decodedID)
+    return decodedID
     #gwiazdka i ten sep musi byc, bo regex po wyciagnieciu danej wartosci wrzuca ja do listy
-    # i wtedy wyswietla z nawiasami kwadratowymi i rownoscia, dzieki temu wyswietla tylko sama wartosc
+    # i wtedy wyswietla z nawiasami kwadratowymi i rownoscia, dzieki temu wyswietla tylko sama wartosc /nieaktualne
 z1=0
 z2=0
-connectingg()
+
+decodedID = connectingg() #wrzucilem jako argument zmienna do id sesji
+
 def switchOperation():
     print("\n0. Zakonczenie dzialania programu.")
     print("1. Historia obliczen przez podanie ID sesji.")
@@ -48,30 +56,30 @@ def switchMathOperation():
     choice = input("\nWybierz operacje matematyczna, ktora chcesz wykonac (podaj numer): ")
     if choice == "1":
         print("\nWybrano dodawanie:")
-        z1 = int(input("Wprowadz pierwsza liczbe:"))
-        z2 = int(input("Wprowadz druga liczbe:"))
+        z1 = int(input("Wprowadz pierwsza liczbe: "))
+        z2 = int(input("Wprowadz druga liczbe: "))
     if choice == "2":
         print("\nWybrano odejmowanie:")
-        z1 = int(input("Wprowadz pierwsza liczbe:"))
-        z2 = int(input("Wprowadz druga liczbe:"))
+        z1 = int(input("Wprowadz pierwsza liczbe: "))
+        z2 = int(input("Wprowadz druga liczbe: "))
     if choice == "3":
         print("\nWybrano mnozenie:")
-        z1 = int(input("Wprowadz pierwsza liczbe:"))
-        z2 = int(input("Wprowadz druga liczbe:"))
+        z1 = int(input("Wprowadz pierwsza liczbe: "))
+        z2 = int(input("Wprowadz druga liczbe: "))
     if choice == "4":
         print("\nWybrano dzielenie:")
-        z1 = int(input("Wprowadz pierwsza liczbe:"))
-        z2 = int(input("Wprowadz druga liczbe:"))
+        z1 = int(input("Wprowadz pierwsza liczbe: "))
+        z2 = int(input("Wprowadz druga liczbe: "))
         while z2 == 0:
             print("Nie wolno dzielic przez 0")
             z2 = int(input("Podaj liczbe rozna od 0"))
     if choice == "5":
         print("\nWybrano potegowanie:")
-        z1 = int(input("Wprowadz pierwsza liczbe:"))
-        z2 = int(input("Wprowadz druga liczbe:"))
+        z1 = int(input("Wprowadz pierwsza liczbe: "))
+        z2 = int(input("Wprowadz druga liczbe: "))
     if choice == "6":
-        print("\nWybrano logarytmowanie:")
-        z1 = int(input("Wprowadz podstawe:"))
+        print("\nWybrano logarytmowanie: ")
+        z1 = int(input("Wprowadz podstawe: "))
         while z1 <= 0 or z1 == 1:
             print("\nPodstawa logarytmu nie moze byc mniejsza lub rowna od 0 ani rowna 1:")
             z1 = int(input("wprowadz inna podstawe"))
@@ -103,17 +111,12 @@ def printMathOperationsHistoryOperationID():
 def CreateAndSendMessage(Operacja):
     global z1
     global z2
-    wiadomosc = "OP#" + Operacja + "$$OD#null$$" + "Z1#" + str(z1) + "$$Z2#" + str(z2) + "$$"
+    wiadomosc = "IS=" + decodedID + "$$IO=" + IO + "$$OP=" + Operacja + "$$OD=" + OD + "$$Z1=" + str(z1) + "$$Z2=" + str(z2) + "$$"
     serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 
 
 while 1:
-    '''operationCode = "OP=dodawaj$" #testowo wysylam
-    serversocket.send(bytes(operationCode, 'utf-8')) #j.w.
-
-    operationCode2 = "Z1=15$"  # testowo wysylam
-    serversocket.send(bytes(operationCode2, 'utf-8'))  # j.w.'''
 
     operation = switchOperation()
 
