@@ -3,7 +3,13 @@ import socket
 from re import split
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #utworzenie gniazda
 def connectingg():
-
+    global iddod, idode, idmno, iddzi, idpot, idlog
+    iddod=0
+    idode=0
+    idmno=0
+    iddzi=0
+    idpot=0
+    idlog = 0
     connected = False
     while not connected:
             try:
@@ -44,24 +50,30 @@ def switchOperation():
 def switchMathOperation():
     global z1
     global z2
+
+    global iddod, idode, idmno, iddzi, idpot, idlog
     print("1. Dodawanie\n 2. Odejmowanie\n 3. Mnozenie\n 4. Dzielenie\n 5. Potegowanie\n 6. Logarytmowanie\n")
     choice = input("\nWybierz operacje matematyczna, ktora chcesz wykonac (podaj numer): ")
     if choice == "1":
         print("\nWybrano dodawanie:")
         z1 = int(input("Wprowadz pierwsza liczbe:"))
         z2 = int(input("Wprowadz druga liczbe:"))
+        iddod = iddod +1
     if choice == "2":
         print("\nWybrano odejmowanie:")
         z1 = int(input("Wprowadz pierwsza liczbe:"))
         z2 = int(input("Wprowadz druga liczbe:"))
+        idode = idode + 1
     if choice == "3":
         print("\nWybrano mnozenie:")
         z1 = int(input("Wprowadz pierwsza liczbe:"))
         z2 = int(input("Wprowadz druga liczbe:"))
+        idmno = idmno + 1
     if choice == "4":
         print("\nWybrano dzielenie:")
         z1 = int(input("Wprowadz pierwsza liczbe:"))
         z2 = int(input("Wprowadz druga liczbe:"))
+        iddzi = iddzi +1
         while z2 == 0:
             print("Nie wolno dzielic przez 0")
             z2 = int(input("Podaj liczbe rozna od 0"))
@@ -69,9 +81,11 @@ def switchMathOperation():
         print("\nWybrano potegowanie:")
         z1 = int(input("Wprowadz pierwsza liczbe:"))
         z2 = int(input("Wprowadz druga liczbe:"))
+        idpot = idpot + 1
     if choice == "6":
         print("\nWybrano logarytmowanie:")
         z1 = int(input("Wprowadz podstawe:"))
+        idlog = idlog + 1
         while z1 <= 0 or z1 == 1:
             print("\nPodstawa logarytmu nie moze byc mniejsza lub rowna od 0 ani rowna 1:")
             z1 = int(input("wprowadz inna podstawe"))
@@ -99,14 +113,27 @@ def printMathOperationsHistorySession():
 
 def printMathOperationsHistoryOperationID():
     IO = input("podaj ID operacji")
-
+def IDO(Operacja):
+    global iddod, idode, idmno, iddzi, idpot, idlog
+    if Operacja == "DO":
+        return iddod
+    if Operacja == "OD":
+        return idode
+    if Operacja == "MN":
+        return idmno
+    if Operacja == "DZ":
+        return iddzi
+    if Operacja == "PO":
+        return idpot
+    if Operacja == "LO":
+        return idlog
 def CreateAndSendMessage(Operacja):
     global z1
     global z2
-    wiadomosc = "OP#" + Operacja + "$$OD#null$$" + "Z1#" + str(z1) + "$$Z2#" + str(z2) + "$$"
+    wiadomosc = "IS#" + id + "$$IO#"+ Operacja + str(IDO(Operacja)) + "OP#" + Operacja + "$$OD#null$$" + "Z1#" + str(z1) + "$$Z2#" + str(z2) + "$$"
     serversocket.send(bytes(wiadomosc, 'utf-8'))
 
-
+#  przykladowy naglowek: IS#1225$$IO#DO5$$OP#DO$$OD#null$$Z1#5Z2#4
 
 while 1:
     '''operationCode = "OP=dodawaj$" #testowo wysylam
