@@ -132,18 +132,12 @@ def CreateAndSendMessage(Operacja):
     global z1
     global z2
     global id
-    wiadomosc = "IS#" + str(id) + "$IO#"+ Operacja + str(IDO(Operacja)) + "$$OP#" + Operacja + "$$OD#null$$" + "Z1#" + str(z1) + "$$Z2#" + str(z2) + "$$"
+    wiadomosc = "IS=" + str(id) + "$IO="+ Operacja + str(IDO(Operacja)) + "$$OP=" + Operacja + "$$OD=null$$" + "Z1=" + str(z1) + "$$Z2=" + str(z2) + "$$"
     serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 #  przykladowy naglowek: IS#1225$$IO#DO5$$OP#DO$$OD#null$$Z1#5Z2#4
 
 while 1:
-    '''operationCode = "OP=dodawaj$" #testowo wysylam
-    serversocket.send(bytes(operationCode, 'utf-8')) #j.w.
-
-    operationCode2 = "Z1=15$"  # testowo wysylam
-    serversocket.send(bytes(operationCode2, 'utf-8'))  # j.w.'''
-
     operation = switchOperation()
 
     if operation == "FN":
@@ -164,3 +158,7 @@ while 1:
         #connectingg()
     else:
         print("\nPodano nieprawidlowy numer operacji, sprobuj jeszcze raz...")
+
+    serverAnswer = serversocket.recv(1024)
+    serverAnswer = str(serverAnswer, 'utf-8')
+    print("\nOdpowiedz od serwera: " + serverAnswer)
