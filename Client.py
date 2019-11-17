@@ -48,6 +48,12 @@ def switchOperation():
         '4': "RE",  # relog bo pewnie potrzebny na rzecz sprawdzania
     }.get(choice, "Podano nieprawidlowy numer operacji.")
 
+def listenIncomingRequest():
+    receivedOperationCode = serversocket.recv(1024)
+    operationCode = str(receivedOperationCode, 'utf-8')
+    print(operationCode)
+
+
 
 def switchMathOperation():
     global z1
@@ -133,7 +139,7 @@ def CreateAndSendMessage(Operacja):
     global z1
     global z2
     global id
-    wiadomosc = "IS#" + str(id) + "$IO#"+ Operacja + str(IDO(Operacja)) + "$$OP#" + Operacja + "$$OD#null$$" + "Z1#" + str(z1) + "$$Z2#" + str(z2) + "$$"
+    wiadomosc = "IS=" + str(id) + "$IO="+ Operacja + str(IDO(Operacja)) + "$$OP=" + Operacja + "$$OD=null$$" + "Z1=" + str(z1) + "$$Z2=" + str(z2) + "$$"
     serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 #  przykladowy naglowek: IS#1225$$IO#DO5$$OP#DO$$OD#null$$Z1#5Z2#4
@@ -160,8 +166,8 @@ while 1:
     elif operation == "OB":
         print("Wykonywanie operacji matematycznych.")
         CreateAndSendMessage(switchMathOperation())
+        listenIncomingRequest()
     elif operation == "RE":
-        print("To jescze nie dziala byq")
         serversocket.close()
         connectingg()
     else:
