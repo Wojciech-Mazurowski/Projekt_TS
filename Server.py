@@ -156,6 +156,7 @@ def listenIncomingRequest():
     return operationCode
 
 
+
 def sendAnswerForRequest():
     clientsocket.send(bytes(str(executeRequest()), 'utf8'))  # wysylanie id sesji do klienta
 
