@@ -66,26 +66,30 @@ def decodeOperationCode(operationCode):
         print("\nOtrzymany kod od serwea: " + operationCode)
 
         splitedOperationCode = operationCode.split("$$", 5)
-        IS = splitedOperationCode[0]
-        IS = IS[3:]
-        print("id sesji: " + IS)
+        ID = splitedOperationCode[0]
+        ID = ID[3:]
+        print("id sesji: " + ID)
+
+        ST = splitedOperationCode[1]
+        ST = ST[3:]
+        print("status: " + ST)
+
         IO = splitedOperationCode[1]
         IO = IO[3:]
-        print("id operacji mat: " + IO)
+        print("ID operacji:" + IO)
+
         OP = splitedOperationCode[2]
         OP = OP[3:]
         print("operacja mat: " + OP)
+
         OD = splitedOperationCode[3]
         OD = OD[3:]
-        print("wynik dzialania: " + OD)
-        Z1 = splitedOperationCode[4]
-        Z1 = Z1[3:]
-        Z1 = int(Z1)
-        print("wart z1: " + str(Z1))
-        Z2 = splitedOperationCode[5]
-        Z2 = Z2[3:-2]
-        Z2 = int(Z2)
-        print("wart z2: " + str(Z2))
+        print("Odpowiedz: " + OD)
+
+        WY = splitedOperationCode[3]
+        WY = WY[3:]
+        print("wynik: " + WY)
+
     else:
         print("tutaj bedzie dekodowanie zapytania o historie sesji/konkretengo dzialnia")
 
@@ -172,11 +176,18 @@ def CreateAndSendMessage(Operacja):
     global z2
     global id
     global decodeID
-    wiadomosc = "ID=" + str(*decodeID) + "$ST="+ "tu cos bedzie" + "$IO="+ Operacja + str(IDO(Operacja)) + "$OP=" + Operacja + "$OD=null$" + "Z1=" + str(z1) + "$Z2=" + str(z2) + "$"
+    wiadomosc = "ID=" + str(*decodeID) + "$ST=" + "tu cos bedzie" + "$IO="+ Operacja + str(IDO(Operacja)) + "$OP=" + Operacja + "$OD=null$" + "Z1=" + str(z1) + "$Z2=" + str(z2) + "$"
     serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 #  przykladowy naglowek: IS#1225$$IO#DO5$$OP#DO$$OD#null$$Z1#5Z2#4
+def AskForHistoryByID(ID):
+    global decodeID
+    ID = input("Podaj ID:")
+    wiadomosc = "ID=" + ID + "$ST="+ "tu cos bedzie" + "$OP=" + "HS$"
 
+def AskForHistoryByIO():
+    IDOP = input("Podaj indentyfikator operacji:")
+    wiadomosc = "ID=" + str(*decodeID) + "$ST=" + "tu cos bedzie" + "$OP=" + "HS$" + "IO=" + IDOP + "$"
 while 1:
     operation = switchOperation()
 
