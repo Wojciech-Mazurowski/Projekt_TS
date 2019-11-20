@@ -237,7 +237,7 @@ while 1:
     sendIDsessionToClient()  # wysylanie id sesji do klienta
 
     while 1:
-        print("1. Nasluchuj klienta 2. Wybierz operacje")
+        print("1. Nasluchuj klienta 2. Wybierz operacje ")
         choice = input("Wybierz operacje do wykonania: ")
         if choice == "1":
                 operationCode = listenIncomingRequest()  # nasluchiwanie na przyjscie zapytania
