@@ -51,7 +51,6 @@ def switchOperation():
 
 def listenIncoming():
     receivedOperationCode = serversocket.recv(1024)
-    print(receivedOperationCode)
     operationCode = str(receivedOperationCode, 'utf-8')
     decodeOperationCode(operationCode)
 
