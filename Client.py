@@ -149,13 +149,6 @@ def switchMathOperation():
     }.get(choice, "Podano nieprawidlowy numer operacji.")
 
 
-def printMathOperationsHistorySession():
-    IS = input("podaj ID sesji:")
-
-
-def printMathOperationsHistoryOperationID():
-    IO = input("podaj ID operacji")
-
 
 def IDO(Operacja):
     global iddod, idode, idmno, iddzi, idpot, idlog
@@ -180,14 +173,16 @@ def CreateAndSendMessage(Operacja):
     serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 #  przykladowy naglowek: IS#1225$$IO#DO5$$OP#DO$$OD#null$$Z1#5Z2#4
-def AskForHistoryByID(ID):
+def AskForHistoryByID():
     global decodeID
     ID = input("Podaj ID:")
     wiadomosc = "ID=" + ID + "$ST="+ "tu cos bedzie" + "$OP=" + "HS$"
+    serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 def AskForHistoryByIO():
     IDOP = input("Podaj indentyfikator operacji:")
-    wiadomosc = "ID=" + str(*decodeID) + "$ST=" + "tu cos bedzie" + "$OP=" + "HS$" + "IO=" + IDOP + "$"
+    wiadomosc = "ID=" + str(*decodeID) + "$ST=" + "tu cos bedzie" + "$OP=" + "HI$" + "IO=" + IDOP + "$"
+    serversocket.send(bytes(wiadomosc, 'utf-8'))
 while 1:
     operation = switchOperation()
 
@@ -197,10 +192,12 @@ while 1:
         break
     elif operation == "HS":
         print("Wyswietlenie historii obliczen przez ID sesji.")
-        printMathOperationsHistorySession()
+        AskForHistoryByID()
+        listenIncoming()
     elif operation == "HO":
         print("Wyswietlenie historii obliczens przez ID obliczen.")
-        printMathOperationsHistoryOperationID()
+        AskForHistoryByIO()
+        listenIncoming()
     elif operation == "OB":
         print("Wykonywanie operacji matematycznych.")
         CreateAndSendMessage(switchMathOperation())
