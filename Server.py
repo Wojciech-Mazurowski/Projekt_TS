@@ -75,7 +75,12 @@ class operation:
     Z2 = "2"
     WY = "3"
 
+
+op = operation()
+
+
 operationHistory = [] #lista zawierajca wpisy wykonanych dzialan mat
+
 
 
 def displayMathOperationsHistorySession():
@@ -130,6 +135,7 @@ def decodeOperationCode(operationCode):
     global Z1
     global Z2
     global WY
+
     if len(operationCode) >= 40:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
         splitedOperationCode = operationCode.split("$", 6)
         ID = splitedOperationCode[0]
@@ -189,7 +195,7 @@ def executeRequest():
     ST="OB" #tak narazie
     OD="OK" #tez narazie okej, potem bede sprawdzac czy nie wyszlo poza zasieg inta
     putToList()
-    answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$OD=" + str(OD) + "$WY=" + str(WY)
+    answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$OD=" + str(OD) + "$WY=" + str(WY) + "$"
     print("\nUtworzona odpowiedz: " + answerCode + "\n")
     return answerCode
 
@@ -207,9 +213,11 @@ def sendAnswerForRequest():
     clientsocket.send(bytes(str(executeRequest()), 'utf8'))  # wysylanie id sesji do klienta
 
 
-
 def putToList():
-    operation = "0"
+    op = operation()
+
+
+
     if OP == "DO":
         operation = "Dodawanie"
     if OP == "OD":
