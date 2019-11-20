@@ -65,7 +65,7 @@ def decodeOperationCode(operationCode):
     if len(operationCode) >= 40:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
         print("\nOtrzymany kod od serwea: " + operationCode)
 
-        splitedOperationCode = operationCode.split("$$", 5)
+        splitedOperationCode = operationCode.split("$", 5)
         ID = splitedOperationCode[0]
         ID = ID[3:]
         print("id sesji: " + ID)
@@ -183,6 +183,8 @@ def AskForHistoryByIO():
     IDOP = input("Podaj indentyfikator operacji:")
     wiadomosc = "ID=" + str(*decodeID) + "$ST=" + "tu cos bedzie" + "$OP=" + "HI$" + "IO=" + IDOP + "$"
     serversocket.send(bytes(wiadomosc, 'utf-8'))
+
+
 while 1:
     operation = switchOperation()
 
