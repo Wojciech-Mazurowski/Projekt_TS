@@ -51,6 +51,7 @@ def switchOperation():
 
 def listenIncoming():
     receivedOperationCode = serversocket.recv(1024)
+    print(receivedOperationCode)
     operationCode = str(receivedOperationCode, 'utf-8')
     decodeOperationCode(operationCode)
 
@@ -62,7 +63,7 @@ def decodeOperationCode(operationCode):
     global OD
     global Z1
     global Z2
-    if len(operationCode) >= 40:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
+    if len(operationCode) >= 30:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
         print("\nOtrzymany kod od serwea: " + operationCode)
 
         splitedOperationCode = operationCode.split("$", 5)
@@ -74,19 +75,19 @@ def decodeOperationCode(operationCode):
         ST = ST[3:]
         print("status: " + ST)
 
-        IO = splitedOperationCode[1]
+        IO = splitedOperationCode[2]
         IO = IO[3:]
         print("ID operacji:" + IO)
 
-        OP = splitedOperationCode[2]
+        OP = splitedOperationCode[3]
         OP = OP[3:]
         print("operacja mat: " + OP)
 
-        OD = splitedOperationCode[3]
+        OD = splitedOperationCode[4]
         OD = OD[3:]
         print("Odpowiedz: " + OD)
 
-        WY = splitedOperationCode[3]
+        WY = splitedOperationCode[5]
         WY = WY[3:]
         print("wynik: " + WY)
 
