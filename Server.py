@@ -181,7 +181,7 @@ def executeRequest():
    OD="OK" #tez narazie okej, potem bede sprawdzac czy nie wyszlo poza zasieg inta
    setMathOperation()
    putToHistory()
-   answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$OD=" + str(OD) + "$WY=" + str(WY) + "$"
+   answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$WY=" + str(WY) + "$"
    print("\nUtworzona odpowiedz: " + answerCode + "\n")
    return answerCode
 
