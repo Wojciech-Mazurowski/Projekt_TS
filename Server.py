@@ -230,9 +230,21 @@ def executeRequest():
         answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$WY=" + str(WY) + "$"
         print("\nUtworzona odpowiedz: " + answerCode + "\n")
         return answerCode
+
     if OP == "HS": #odpowiedz klienta na zapytanie o historie sesji
-        answerCode = "ID=" + str(ID) + "$ST=" + "OK" + "$OP=" + "HS" + "$HS=" + str("listastringow") + "$" # w hs bedzie lista stringow z historia sesji
+
+        matcher = str(HS)
+        findOperation = list(filter(lambda x: matcher in x, operationHistory))
+        if len(findOperation) != 0:
+            print("\nZnaleziono historie dla podanego id sesji.\n")
+            print(findOperation)
+            answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=" + "HS" + "$HS=" + str(findOperation) + "$"  # w hs bedzie lista stringow z historia sesji
+        else:
+            print("\nNie znaleziono wskazanej sesji.\n")
+            info = "Nie znaleziono wpisow dla podanej sesji."
+            answerCode = "ID=" + str(ID) + "$ST=ER" + "$OP=HS$"  #nie znaleziono wpisow dla podanego id
         return answerCode
+
     if OP == "HI": #odpwowiedz do klienta na zapytanie o historie konkretnej operacji
         answerCode = "ID=" + str(ID) + "$ST=" + "OK" + "$OP=" + "HI" + "$HI=" + str("strjakistam") + "$" #hisotira id oepracjireturn answerCode
         return answerCode
