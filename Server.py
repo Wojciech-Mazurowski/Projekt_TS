@@ -2,6 +2,7 @@ import math
 import re
 import socket
 import datetime
+import pickle
 
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # utworzenie gniazda
 serversocket.bind((socket.gethostname(), 1234))  # dowiazanie do portu 1234
@@ -21,7 +22,7 @@ def setID(): #funkcja tworzaca 6 cyfrowy identyfikator sesji, jest to godzina mi
    if len(idSecond) == 1:
        idSecond = str(0) + idSecond
 
-   id = int(idHour + idMinute + idSecond)
+   id = str(idHour + idMinute + idSecond).zfill(6)
    operationID = "ID=" + str(id) + "$"
    return operationID
 
@@ -238,7 +239,9 @@ def executeRequest():
         if len(findOperation) != 0:
             print("\nZnaleziono historie dla podanego id sesji.\n")
             print(findOperation)
-            answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=" + "HS" + "$HS=" + str(findOperation) + "$"  # w hs bedzie lista stringow z historia sesji
+            stringHistory = "#".join(findOperation)
+            print("String z historia: " + stringHistory)
+            answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=" + "HS" + "$HS=" + str(stringHistory) + "$"  # w hs bedzie lista stringow z historia sesji
         else:
             print("\nNie znaleziono wskazanej sesji.\n")
             info = "Nie znaleziono wpisow dla podanej sesji."
@@ -267,7 +270,7 @@ def sendAnswerForRequest():
 def putToHistory():
    global operationHistory
 
-   mathOperation = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$Z1=" + str(Z1) + "$Z2=" + str(Z2) + "$WY=" + str(WY)
+   mathOperation = "ID=" + str(ID) + "#IO=" + str(IO) + "#OP=" + str(OP) + "#Z1=" + str(Z1) + "#Z2=" + str(Z2) + "#WY=" + str(WY)
    operationHistory.append(mathOperation)
 
 def setMathOperation():
