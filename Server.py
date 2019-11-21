@@ -239,7 +239,7 @@ def executeRequest():
         if len(findOperation) != 0:
             print("\nZnaleziono historie dla podanego id sesji.\n")
             print(findOperation)
-            stringHistory = "@@@".join(findOperation)
+            stringHistory = "@".join(findOperation)
             print("String z historia: " + stringHistory)
             answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=" + "HS" + "$HS=" + str(stringHistory) + "$"  # string z historia
         else:
