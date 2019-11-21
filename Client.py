@@ -184,7 +184,7 @@ def AskForHistoryByIO():
    IDOP = input("Podaj indentyfikator operacji:")
    while len(IDOP) < 3:
        IDOP = input("ID operacji matematycznej jest niewlasciwy, sprobuj ponownie: \n") #tutaj ma do skutku prosic o conajmniej 3 znakowy id
-   wiadomosc = "ID=" + str(*decodeID) + "$ST=" + "tu cos bedzie" + "$OP=" + "HI" + "$IO=" + IDOP + "$"
+   wiadomosc = "ID=" + str(*decodeID) + "$ST=" + "null" + "$OP=" + "HI" + "$IO=" + IDOP + "$"
    serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 

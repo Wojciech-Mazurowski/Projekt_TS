@@ -228,10 +228,10 @@ def executeRequest():
         print("\nUtworzona odpowiedz: " + answerCode + "\n")
         return answerCode
     if OP == "HS": #odpowiedz klienta na zapytanie o historie sesji
-        answerCode = "ID=" + str(ID) + "$ST=" + "OK" + "$OP=" + "HS" + "$HS=" + str("haes") + "$" # w hs bedzie lista stringow z historia sesji
+        answerCode = "ID=" + str(ID) + "$ST=" + "OK" + "$OP=" + "HS" + "$HS=" + str("listastringow") + "$" # w hs bedzie lista stringow z historia sesji
         return answerCode
     if OP == "HI": #odpwowiedz do klienta na zapytanie o historie konkretnej operacji
-        answerCode = "ID=" + str(ID) + "$ST=" + "OK" + "$OP=" + "HI" + "$HI=" + str("string z dana operacja mat") + "$" #hisotira id oepracjireturn answerCode
+        answerCode = "ID=" + str(ID) + "$ST=" + "OK" + "$OP=" + "HI" + "$HI=" + str("strjakistam") + "$" #hisotira id oepracjireturn answerCode
         return answerCode
 
 
