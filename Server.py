@@ -70,30 +70,40 @@ operationHistory = [] # lista stringow z operacjami
 
 
 def displayMathOperationsHistorySession():
-   if len(operationHistory) == 0:
-       print("Historia operacji jest pusta.\n")
-   else:
-       print("\nWykonane dzialania matematyczne w obecnej sesji: \n")
-       print('\n'.join(operationHistory))
+    operation = input("Podaj 6-cyfrowy ID sesji aby wyswietlic wykonane operacje: \n")
+    while len(operation) != 6:
+        operation = input("ID sesji jest niewlasciwy, sprobuj ponownie: \n")
+    matcher = str(operation)
+    findOperation = list(filter(lambda x: matcher in x, operationHistory))
+    if len(findOperation) != 0:
+        print('\n'.join(operationHistory))
+    else:
+        print("\nNie znaleziono wskazanej sesji.\n")
 
 
 def displayMathOperationsHistoryOperationID():
-   operation = input("Podaj ID operacji do wyswietlenia: \n")
+   operation = input("Podaj 3-znakowy ID operacji do wyswietlenia: \n")
+   while len(operation) < 3:
+       operation = input("ID operacji matematycznej jest niewlasciwy, sprobuj ponownie: \n")
    matcher = str(operation)
-   findOperation = list(filter(lambda x: matcher in x, operationHistory))
+   matcher2 = str(ID)
+   findOperation = list(filter(lambda x: matcher2 in x, operationHistory))
    if len(findOperation) != 0:
-       print(findOperation)
+       findOperation2 = list(filter(lambda x: matcher in x, operationHistory))
+       if len(findOperation2) != 0:
+        print('\n'.join(operationHistory))
+       else:
+           print("\nNie znaleziono wskazanej operacji.\n")
    else:
        print("\nNie znaleziono wskazanej operacji.\n")
 
 
 def  displayAllMathOperations():
-   if len(operationHistory) == 0:
-       print("Historia operacji jest pusta.\n")
-   else:
-       print("\nWykonane do tej pory dzialania matematyczne: \n")
-       print("\n".join(operationHistory))
-       print("\n")
+    if len(operationHistory) == 0:
+        print("Historia operacji jest pusta.\n")
+    else:
+        print("\nWykonane dzialania matematyczne od momentu uruchomienia serwera: \n")
+        print('\n'.join(operationHistory))
 
 
 DOcounter = 1
@@ -111,6 +121,9 @@ OD = 0
 WY = 0
 Z1 = 0
 Z2 = 0
+HS = 0
+HI = 0
+UN = 0
 
 def decodeOperationCode(operationCode):
    global ID
@@ -121,11 +134,15 @@ def decodeOperationCode(operationCode):
    global Z1
    global Z2
    global WY
+   global HS
+   global HI
+   global UN
 
    print("\n" + operationCode)
 
-   if len(operationCode) >= 40:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
+   if len(operationCode) >= 38:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
        splitedOperationCode = operationCode.split("$", 5)
+       print("Otrzymany kod od klienta: " + operationCode)
 
        ID = splitedOperationCode[0]
        ID = ID[3:]
@@ -153,37 +170,69 @@ def decodeOperationCode(operationCode):
        print("Z2: " + Z2)
        Z2 = int(Z2)
    else:
-       print("tutaj bedzie dekodowanie zapytania o historie sesji/konkretengo dzialnia")
+       print("Otrzymany kod od klienta historia: " + operationCode)
+       print("\ntutaj bedzie dekodowanie zapytania o historie sesji/konkretengo dzialnia")
+       splitedOperationCode = operationCode.split("$", 3)
+       print(splitedOperationCode)
+       ID = splitedOperationCode[0]
+       ID = ID[3:]
+       print("hID: " + ID)
+
+       ST = splitedOperationCode[1]
+       ST = ST[3:]
+       print("hST: " + ST)
+
+       OP = splitedOperationCode[2]
+       OP = OP[3:]
+       print("hOP: " + OP)
+
+       if OP == "HS":
+        HS = splitedOperationCode[3]
+        HS = HS[3:-1]
+        print("hHS: " + HS)
+       if OP == "HI":
+        HI = splitedOperationCode[3]
+        HI = HI[3:-1]
+        print("hHI: " + HI)
+
 
 
 def executeRequest():
-   global DOcounter, ODcounter, MNcounter, DZcounter, POcounter, LOcounter, OD, WY, ST
-   if OP == 'DO':
-       WY = add(Z1, Z2)
-       IO = "DO" + str(DOcounter)
-   if OP == 'OD':
-       WY = subtract(Z1, Z2)
-       IO = "OD" + str(ODcounter)
-   if OP == 'MN':
-       WY = multiply(Z1, Z2)
-       IO = "MN" + str(MNcounter)
-   if OP == 'DZ':
-       WY = divide(Z1, Z2)
-       IO = "DZ" + str(DZcounter)
-   if OP == 'PO':
-       WY = power(Z1, Z2)
-       IO = "PO" + str(POcounter)
-   if OP == 'LO':
-       WY = log(Z1, Z2)
-       IO = "LO" + str(LOcounter)
+    global DOcounter, ODcounter, MNcounter, DZcounter, POcounter, LOcounter, OD, WY, ST, OP
 
-   ST="OB" #tak narazie
-   OD="OK" #tez narazie okej, potem bede sprawdzac czy nie wyszlo poza zasieg inta
-   setMathOperation()
-   putToHistory()
-   answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$WY=" + str(WY) + "$"
-   print("\nUtworzona odpowiedz: " + answerCode + "\n")
-   return answerCode
+    if OP == "DO" or OP == "OD" or OP == "MN" or OP == "DZ" or OP == "PO" or OP == "LO":
+        if OP == 'DO':
+            WY = add(Z1, Z2)
+            IO = "DO" + str(DOcounter)
+        if OP == 'OD':
+            WY = subtract(Z1, Z2)
+            IO = "OD" + str(ODcounter)
+        if OP == 'MN':
+            WY = multiply(Z1, Z2)
+            IO = "MN" + str(MNcounter)
+        if OP == 'DZ':
+            WY = divide(Z1, Z2)
+            IO = "DZ" + str(DZcounter)
+        if OP == 'PO':
+            WY = power(Z1, Z2)
+            IO = "PO" + str(POcounter)
+        if OP == 'LO':
+            WY = log(Z1, Z2)
+            IO = "LO" + str(LOcounter)
+
+        ST="OB" #tak narazie
+        OD="OK" #tez narazie okej, potem bede sprawdzac czy nie wyszlo poza zasieg inta
+        setMathOperation()
+        putToHistory()
+        answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$WY=" + str(WY) + "$"
+        print("\nUtworzona odpowiedz: " + answerCode + "\n")
+        return answerCode
+    if OP == "HS": #odpowiedz klienta na zapytanie o historie sesji
+        answerCode = "ID=" + str(ID) + "$ST=" + "OK" + "$OP=" + "HS" + "$HS=" + str("haes") + "$" # w hs bedzie lista stringow z historia sesji
+        return answerCode
+    if OP == "HI": #odpwowiedz do klienta na zapytanie o historie konkretnej operacji
+        answerCode = "ID=" + str(ID) + "$ST=" + "OK" + "$OP=" + "HI" + "$HI=" + str("string z dana operacja mat") + "$" #hisotira id oepracjireturn answerCode
+        return answerCode
 
 
 def listenIncomingRequest():
@@ -197,20 +246,13 @@ def sendIDsessionToClient():
 
 
 def sendAnswerForRequest():
-   clientsocket.send(bytes(str(executeRequest()), 'utf8'))  # wysylanie id sesji do klienta
+   clientsocket.send(bytes(str(executeRequest()), 'utf8'))
 
 
 def putToHistory():
    global operationHistory
 
    print("zmienne przed dodaniem do historii: ")
-   print(ID)
-   print(ST)
-   print(IO)
-   print(OP)
-   print(Z1)
-   print(Z2)
-   print(WY)
    mathOperation = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$Z1=" + str(Z1) + "$Z2=" + str(Z2) + "$WY=" + str(WY)
    operationHistory.append(mathOperation)
 
@@ -247,13 +289,6 @@ while 1:
                operationCode = listenIncomingRequest()  # nasluchiwanie na przyjscie zapytania
                decodeOperationCode(operationCode)
                sendAnswerForRequest()
-               print(ID)  # testowanie czy dobrze zmienia wartosci zmiennych
-               print(ST)
-               print(IO)
-               print(OP)
-               print(Z1)
-               print(Z2)
-               print(WY)
        if choice == "2":
            operation = switchOperations()
 

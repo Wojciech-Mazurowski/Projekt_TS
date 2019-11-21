@@ -62,7 +62,7 @@ def decodeOperationCode(operationCode):
    global OD
    global Z1
    global Z2
-   if len(operationCode) >= 30:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
+   if len(operationCode) >= 38:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
        print("\nOtrzymany kod od serwea: " + operationCode)
 
        splitedOperationCode = operationCode.split("$", 5)
@@ -89,7 +89,6 @@ def decodeOperationCode(operationCode):
        WY = splitedOperationCode[5]
        WY = WY[3:]
        print("wynik: " + WY)
-
    else:
        print("tutaj bedzie dekodowanie zapytania o historie sesji/konkretengo dzialnia")
 
@@ -175,13 +174,17 @@ def CreateAndSendMessage(Operacja):
 #  przykladowy naglowek: IS#1225$$IO#DO5$$OP#DO$$OD#null$$Z1#5Z2#4
 def AskForHistoryByID():
    global decodeID
-   ID = input("Podaj ID:")
-   wiadomosc = "ID=" + ID + "$ST="+ "tu cos bedzie" + "$OP=" + "HS$"
+   IDS = input("Podaj ID sesji do wyswietlenia historii:")
+   while len(IDS) != 6:
+       IDS = input("ID sesji jest niewlasciwy, sprobuj ponownie: \n") #tutaj ma do skutku prosic o conajmniej 6 cyfrowy id sesji
+   wiadomosc = "ID=" + str(*decodeID) + "$ST=" + "null" + "$OP=" + "HS" +  "$HS=" + IDS + "$" #w kazdej wiadomosci ma byc wysylane id biezacej sesji dltego id = id sesji
    serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 def AskForHistoryByIO():
    IDOP = input("Podaj indentyfikator operacji:")
-   wiadomosc = "ID=" + str(*decodeID) + "$ST=" + "tu cos bedzie" + "$OP=" + "HI$" + "IO=" + IDOP + "$"
+   while len(IDOP) < 3:
+       IDOP = input("ID operacji matematycznej jest niewlasciwy, sprobuj ponownie: \n") #tutaj ma do skutku prosic o conajmniej 3 znakowy id
+   wiadomosc = "ID=" + str(*decodeID) + "$ST=" + "tu cos bedzie" + "$OP=" + "HI" + "$IO=" + IDOP + "$"
    serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 

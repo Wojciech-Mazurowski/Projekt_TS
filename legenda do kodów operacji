@@ -18,3 +18,9 @@ IS - id sesji ktorej chcemy zobaczyc historie
 
 przyklad naglowka dla potegowania i liczb z1 = 4 i z2 = 5 : IS=123456$$IO=123456PO1$$OP=PO$$OD=null$$Z1=4$$Z2=5$$
 OD to odpowiedz w kliencie jest pusta u ciebie to by byl onp OD#OK albo OD#NK  (od nie ok cokolwiek xd)
+
+operacje matematyczne nagłówek np:
+
+wysyła klient: ID ST IO OP Z1 Z2
+
+odpowiada serwer: ID ST IO OP WY
