@@ -202,22 +202,27 @@ def executeRequest():
         if OP == 'DO':
             WY = add(Z1, Z2)
             IO = "DO" + str(DOcounter)
+            DOcounter+=1
         if OP == 'OD':
             WY = subtract(Z1, Z2)
             IO = "OD" + str(ODcounter)
+            ODcounter += 1
         if OP == 'MN':
             WY = multiply(Z1, Z2)
             IO = "MN" + str(MNcounter)
+            MNcounter += 1
         if OP == 'DZ':
             WY = divide(Z1, Z2)
             IO = "DZ" + str(DZcounter)
+            DZcounter += 1
         if OP == 'PO':
             WY = power(Z1, Z2)
             IO = "PO" + str(POcounter)
+            POcounter += 1
         if OP == 'LO':
             WY = log(Z1, Z2)
             IO = "LO" + str(LOcounter)
-
+            LOcounter += 1
         ST="OK" #tak narazie
 
         setMathOperation()
