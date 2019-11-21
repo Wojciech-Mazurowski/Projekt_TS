@@ -62,7 +62,7 @@ def decodeOperationCode(operationCode):
    global OD
    global Z1
    global Z2
-   if len(operationCode) >= 38:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
+   if len(operationCode) >= 20:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
        print("\nOtrzymany kod od serwea: " + operationCode)
 
        splitedOperationCode = operationCode.split("$", 5)
@@ -82,13 +82,11 @@ def decodeOperationCode(operationCode):
        OP = OP[3:]
        print("operacja mat: " + OP)
 
-       OD = splitedOperationCode[4]
-       OD = OD[3:]
-       print("Odpowiedz: " + OD)
-
-       WY = splitedOperationCode[5]
+       WY= splitedOperationCode[4]
        WY = WY[3:]
-       print("wynik: " + WY)
+       print("Odpowiedz: " + WY)
+
+
    else:
        print("tutaj bedzie dekodowanie zapytania o historie sesji/konkretengo dzialnia")
 
