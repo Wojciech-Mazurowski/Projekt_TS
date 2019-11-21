@@ -138,7 +138,6 @@ def decodeOperationCode(operationCode):
    global HI
    global UN
 
-   print("\n" + operationCode)
 
    if len(operationCode) >= 38:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
        splitedOperationCode = operationCode.split("$", 5)
@@ -170,8 +169,7 @@ def decodeOperationCode(operationCode):
        print("Z2: " + Z2)
        Z2 = int(Z2)
    else:
-       print("Otrzymany kod od klienta historia: " + operationCode)
-       print("\ntutaj bedzie dekodowanie zapytania o historie sesji/konkretengo dzialnia")
+       print("\nTestowy print zebym widzial co przychodzi - Otrzymany kod od klienta historia: " + operationCode)
        splitedOperationCode = operationCode.split("$", 3)
        print(splitedOperationCode)
        ID = splitedOperationCode[0]
@@ -220,8 +218,8 @@ def executeRequest():
             WY = log(Z1, Z2)
             IO = "LO" + str(LOcounter)
 
-        ST="OB" #tak narazie
-        OD="OK" #tez narazie okej, potem bede sprawdzac czy nie wyszlo poza zasieg inta
+        ST="OK" #tak narazie
+
         setMathOperation()
         putToHistory()
         answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$WY=" + str(WY) + "$"
@@ -252,7 +250,6 @@ def sendAnswerForRequest():
 def putToHistory():
    global operationHistory
 
-   print("zmienne przed dodaniem do historii: ")
    mathOperation = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$Z1=" + str(Z1) + "$Z2=" + str(Z2) + "$WY=" + str(WY)
    operationHistory.append(mathOperation)
 
