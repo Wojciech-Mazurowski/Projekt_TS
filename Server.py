@@ -122,36 +122,35 @@ def decodeOperationCode(operationCode):
    global Z2
    global WY
 
+   print("\n" + operationCode)
+
    if len(operationCode) >= 40:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
-       splitedOperationCode = operationCode.split("$", 6)
+       splitedOperationCode = operationCode.split("$", 5)
+
        ID = splitedOperationCode[0]
        ID = ID[3:]
-       #print("ID: " + ID)
+       print("ID: " + ID)
 
        ST = splitedOperationCode[1]
        ST = ST[3:]
-       #print("ST: " + ST)
+       print("ST: " + ST)
 
        IO = splitedOperationCode[2]
        IO = IO[3:]
-       #print("IO: " + IO)
+       print("IO: " + IO)
 
        OP = splitedOperationCode[3]
        OP = OP[3:]
-       #print("OP: " + OP)
+       print("OP: " + OP)
 
-       OD = splitedOperationCode[4]
-       OD = OD[3:]
-       #print("OD: " + OD)
-
-       Z1 = splitedOperationCode[5]
+       Z1 = splitedOperationCode[4]
        Z1 = Z1[3:]
-       #print("Z1: " + Z1)
+       print("Z1: " + Z1)
        Z1 = int(Z1)
 
-       Z2 = splitedOperationCode[6]
+       Z2 = splitedOperationCode[5]
        Z2 = Z2[3:-1]
-       #print("Z2: " + Z2)
+       print("Z2: " + Z2)
        Z2 = int(Z2)
    else:
        print("tutaj bedzie dekodowanie zapytania o historie sesji/konkretengo dzialnia")
@@ -212,7 +211,7 @@ def putToHistory():
    print(Z1)
    print(Z2)
    print(WY)
-   mathOperation = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$Z1=" + str(Z1) + "$Z2=" + str(Z2) + "$WY=" + str(WY) + "#"
+   mathOperation = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$Z1=" + str(Z1) + "$Z2=" + str(Z2) + "$WY=" + str(WY)
    operationHistory.append(mathOperation)
 
 def setMathOperation():

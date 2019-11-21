@@ -169,7 +169,7 @@ def CreateAndSendMessage(Operacja):
    global z2
    global id
    global decodeID
-   wiadomosc = "ID=" + str(*decodeID) + "$ST=" + "tu cos bedzie" + "$IO="+ Operacja + str(IDO(Operacja)) + "$OP=" + Operacja + "$OD=null$" + "Z1=" + str(z1) + "$Z2=" + str(z2) + "$"
+   wiadomosc = "ID=" + str(*decodeID) + "$ST=" + "null" + "$IO="+ Operacja + str(IDO(Operacja)) + "$OP=" + Operacja + "$Z1=" + str(z1) + "$Z2=" + str(z2) + "$"
    serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 #  przykladowy naglowek: IS#1225$$IO#DO5$$OP#DO$$OD#null$$Z1#5Z2#4
