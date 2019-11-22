@@ -67,11 +67,11 @@ def decodeOperationCodeHS(operationCode):
        splitedOperationCode = operationCode.split("$", 5)
        ID = splitedOperationCode[0]
        ID = ID[3:]
-       print("id sesji: " + ID)
+       print("\nID sesji: " + ID)
 
        ST = splitedOperationCode[1]
        ST = ST[3:]
-       print("status: " + ST)
+       print("Status: " + ST)
 
        OP = splitedOperationCode[2]
        OP = OP[3:]
@@ -81,7 +81,7 @@ def decodeOperationCodeHS(operationCode):
        WY = WY[3:]
 
        splitedanwser = WY.split("@", 1024)
-       print("HISTORIA: ")
+       print("\nHISTORIA: ")
        for x in splitedanwser:
            decodeOperationCodeHSS(x)
 
@@ -113,7 +113,7 @@ def decodeOperationCodeHSS(operationCode):
 
        ST = splitedOperationCode[1]
        ST = ST[3:]
-       print("ID operacji: " + ST)
+       print("\nID operacji: " + ST)
 
        IO = splitedOperationCode[2]
        IO = IO[3:]
@@ -129,7 +129,7 @@ def decodeOperationCodeHSS(operationCode):
 
        WYN = splitedOperationCode[5]
        WYN = WYN[3:]
-       print("Wynik: " + WYN +"\n\n")
+       print("Wynik: " + WYN )
 
 
 
@@ -150,7 +150,7 @@ def decodeOperationCode(operationCode):
        splitedOperationCode = operationCode.split("$", 5)
        ID = splitedOperationCode[0]
        ID = ID[3:]
-       print("id sesji: " + ID)
+       print("\nid sesji: " + ID)
 
        ST = splitedOperationCode[1]
        ST = ST[3:]
@@ -218,6 +218,12 @@ def switchMathOperation():
        z2 = int(input("Wprowadz liczbe do logarytmowania:"))
        while z2 <= 0:
            z2 = int(input("Liczba logarytmowana musi byc dodatnia, podaj inna liczbe"))
+
+   while z1.isalpha() or z2.isalpha():
+        print("Zmienne musza byc liczba!")
+        z1 = input("Podaj pierwsza LICZBE: ")
+        z2 = input("Podaj druga LICZBE: ")
+
    return {
        '1': "DO", #dodawanie
        '2': "OD", #odejmowanie
