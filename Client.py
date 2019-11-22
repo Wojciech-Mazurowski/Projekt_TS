@@ -54,6 +54,88 @@ def listenIncoming():
    operationCode = str(receivedOperationCode, 'utf-8')
    decodeOperationCode(operationCode)
 
+def decodeOperationCodeHS(operationCode):
+   global IS
+   global IO
+   global OP
+   global OD
+   global Z1
+   global Z2
+   if len(operationCode) >= 20:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
+      # print("\nOtrzymany kod od serwea: " + operationCode)
+
+       splitedOperationCode = operationCode.split("$", 5)
+       ID = splitedOperationCode[0]
+       ID = ID[3:]
+       print("id sesji: " + ID)
+
+       ST = splitedOperationCode[1]
+       ST = ST[3:]
+       print("status: " + ST)
+
+       OP = splitedOperationCode[2]
+       OP = OP[3:]
+       print("Operacja: " + OP)
+
+       WY= splitedOperationCode[3]
+       WY = WY[3:]
+
+       splitedanwser = WY.split("@", 1024)
+       print("HISTORIA: ")
+       for x in splitedanwser:
+           decodeOperationCodeHSS(x)
+
+
+
+   else:
+       print("tutaj bedzie dekodowanie zapytania o historie sesji/konkretengo dzialnia")
+
+
+
+def listenIncomingHS():
+   receivedOperationCode = serversocket.recv(1024)
+   operationCode = str(receivedOperationCode, 'utf-8')
+   decodeOperationCodeHS(operationCode)
+
+
+def decodeOperationCodeHSS(operationCode):
+   global IS
+   global IO
+   global OP
+   global OD
+   global Z1
+   global Z2
+   if len(operationCode) >= 20:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
+       splitedOperationCode = operationCode.split("#", 5)
+       ID = splitedOperationCode[0]
+       ID = ID[3:]
+      # print("id sesji: " + ID)
+
+       ST = splitedOperationCode[1]
+       ST = ST[3:]
+       print("ID operacji: " + ST)
+
+       IO = splitedOperationCode[2]
+       IO = IO[3:]
+       print("Operacja: " + IO)
+
+       OP = splitedOperationCode[3]
+       OP = OP[3:]
+       print("Pierwsza zmienna: " + OP)
+
+       WY= splitedOperationCode[4]
+       WY = WY[3:]
+       print("Druga zmienna: " + WY)
+
+       WYN = splitedOperationCode[5]
+       WYN = WYN[3:]
+       print("Wynik: " + WYN +"\n\n")
+
+
+
+   else:
+       print("tutaj bedzie dekodowanie zapytania o historie sesji/konkretengo dzialnia")
+
 
 def decodeOperationCode(operationCode):
    global IS
@@ -63,7 +145,7 @@ def decodeOperationCode(operationCode):
    global Z1
    global Z2
    if len(operationCode) >= 20:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
-       print("\nOtrzymany kod od serwea: " + operationCode)
+      # print("\nOtrzymany kod od serwea: " + operationCode)
 
        splitedOperationCode = operationCode.split("$", 5)
        ID = splitedOperationCode[0]
@@ -76,7 +158,7 @@ def decodeOperationCode(operationCode):
 
        IO = splitedOperationCode[2]
        IO = IO[3:]
-       print("ID operacji:" + IO)
+       print("ID operacji: " + IO)
 
        OP = splitedOperationCode[3]
        OP = OP[3:]
@@ -196,7 +278,7 @@ while 1:
    elif operation == "HS":
        print("Wyswietlenie historii obliczen przez ID sesji.")
        AskForHistoryByID()
-       listenIncoming()
+       listenIncomingHS()
    elif operation == "HO":
        print("Wyswietlenie historii obliczens przez ID obliczen.")
        AskForHistoryByIO()
