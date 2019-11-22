@@ -182,48 +182,55 @@ def switchMathOperation():
    choice = input("\nWybierz operacje matematyczna, ktora chcesz wykonac (podaj numer): ")
    if choice == "1":
        print("\nWybrano dodawanie:")
-       z1 = int(input("Wprowadz pierwsza liczbe:"))
-       z2 = int(input("Wprowadz druga liczbe:"))
+       z1 = input("Wprowadz pierwsza liczbe:")
+       z2 = input("Wprowadz druga liczbe:")
        iddod = iddod +1
    if choice == "2":
        print("\nWybrano odejmowanie:")
-       z1 = int(input("Wprowadz pierwsza liczbe:"))
-       z2 = int(input("Wprowadz druga liczbe:"))
+       z1 = input("Wprowadz pierwsza liczbe:")
+       z2 = input("Wprowadz druga liczbe:")
        idode = idode + 1
    if choice == "3":
        print("\nWybrano mnozenie:")
-       z1 = int(input("Wprowadz pierwsza liczbe:"))
-       z2 = int(input("Wprowadz druga liczbe:"))
+       z1 = input("Wprowadz pierwsza liczbe:")
+       z2 = input("Wprowadz druga liczbe:")
        idmno = idmno + 1
    if choice == "4":
        print("\nWybrano dzielenie:")
-       z1 = int(input("Wprowadz pierwsza liczbe:"))
-       z2 = int(input("Wprowadz druga liczbe:"))
+       z1 = input("Wprowadz pierwsza liczbe:")
+       z2 = input("Wprowadz druga liczbe:")
        iddzi = iddzi +1
-       while z2 == 0:
+       while z2 == "0":
            print("Nie wolno dzielic przez 0")
-           z2 = int(input("Podaj liczbe rozna od 0"))
+           z2 = input("Podaj liczbe rozna od 0")
    if choice == "5":
        print("\nWybrano potegowanie:")
-       z1 = int(input("Wprowadz pierwsza liczbe:"))
-       z2 = int(input("Wprowadz druga liczbe:"))
+       z1 = input("Wprowadz pierwsza liczbe:")
+       z2 = input("Wprowadz druga liczbe:")
        idpot = idpot + 1
    if choice == "6":
        print("\nWybrano logarytmowanie:")
-       z1 = int(input("Wprowadz podstawe:"))
+       z1 = input("Wprowadz podstawe:")
        idlog = idlog + 1
-       while z1 <= 0 or z1 == 1:
+       while z1.isalpha():
+           print("Zmienne musza byc liczba!")
+           z1 = input("Podaj pierwsza LICZBE: ")
+       while int(z1) <= 0 or int(z1) == 1:
            print("\nPodstawa logarytmu nie moze byc mniejsza lub rowna od 0 ani rowna 1:")
-           z1 = int(input("wprowadz inna podstawe"))
-       z2 = int(input("Wprowadz liczbe do logarytmowania:"))
-       while z2 <= 0:
-           z2 = int(input("Liczba logarytmowana musi byc dodatnia, podaj inna liczbe"))
+           z1 = input("wprowadz inna podstawe")
+       z2 = input("Wprowadz liczbe do logarytmowania:")
+       while z2.isalpha():
+           print("Zmienne musza byc liczba!")
+           z2 = input("Podaj druga LICZBE: ")
+       while int(z2) <= 0:
+           z2 = input("Liczba logarytmowana musi byc dodatnia, podaj inna liczbe")
 
    while z1.isalpha() or z2.isalpha():
         print("Zmienne musza byc liczba!")
         z1 = input("Podaj pierwsza LICZBE: ")
         z2 = input("Podaj druga LICZBE: ")
-
+   z1=int(z1)
+   z2=int(z2)
    return {
        '1': "DO", #dodawanie
        '2': "OD", #odejmowanie
