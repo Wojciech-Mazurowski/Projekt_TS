@@ -132,9 +132,13 @@ def decodeOperationCodeHSS(operationCode):
        print("Wynik: " + WYN )
 
 
+      # ZC = splitedOperationCode[6]
+        #ZC = ZC[3:-1]
+       #print("Czas od polaczenia:" + ZC + "s")
+
 
    else:
-       print("tutaj bedzie dekodowanie zapytania o historie sesji/konkretengo dzialnia")
+       print("Wystapil blad - prawdopodobnie podano zly identyfikator")
 
 
 def decodeOperationCode(operationCode):
@@ -167,6 +171,10 @@ def decodeOperationCode(operationCode):
        WY= splitedOperationCode[4]
        WY = WY[3:]
        print("Odpowiedz: " + WY)
+
+       ZC = splitedOperationCode[5]
+       ZC = ZC[3:-1]
+       print("Czas od polaczenia:" + ZC + "s")
 
 
    else:
@@ -295,7 +303,7 @@ while 1:
    elif operation == "HO":
        print("Wyswietlenie historii obliczens przez ID obliczen.")
        AskForHistoryByIO()
-       listenIncoming()
+       listenIncomingHS()
    elif operation == "OB":
        print("Wykonywanie operacji matematycznych.")
        CreateAndSendMessage(switchMathOperation())
