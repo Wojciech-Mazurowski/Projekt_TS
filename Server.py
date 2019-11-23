@@ -3,6 +3,7 @@ import re
 import socket
 import datetime
 import pickle
+import time
 
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # utworzenie gniazda
 serversocket.bind((socket.gethostname(), 1234))  # dowiazanie do portu 1234
@@ -125,6 +126,7 @@ Z2 = 0
 HS = 0
 HI = 0
 UN = 0
+ZC = 0
 
 def decodeOperationCode(operationCode):
    global ID
@@ -197,38 +199,50 @@ def decodeOperationCode(operationCode):
 
 
 def executeRequest():
-    global DOcounter, ODcounter, MNcounter, DZcounter, POcounter, LOcounter, OD, WY, ST, OP
+    global DOcounter, ODcounter, MNcounter, DZcounter, POcounter, LOcounter, OD, WY, ST, OP, ZC
 
     if OP == "DO" or OP == "OD" or OP == "MN" or OP == "DZ" or OP == "PO" or OP == "LO":
         if OP == 'DO':
             WY = add(Z1, Z2)
             IO = "DO" + str(DOcounter)
             DOcounter+=1
+            ST = "OK"
         if OP == 'OD':
             WY = subtract(Z1, Z2)
             IO = "OD" + str(ODcounter)
             ODcounter += 1
+            ST = "OK"
         if OP == 'MN':
             WY = multiply(Z1, Z2)
             IO = "MN" + str(MNcounter)
             MNcounter += 1
+            ST = "OK"
         if OP == 'DZ':
-            WY = divide(Z1, Z2)
-            IO = "DZ" + str(DZcounter)
-            DZcounter += 1
+            if Z2 != 0:
+                WY = divide(Z1, Z2)
+                IO = "DZ" + str(DZcounter)
+                DZcounter += 1
+                ST = "OK"
+            else:
+                print("dzielenie przez zero")
+                ST = "ER"
+                WY = "null"
         if OP == 'PO':
             WY = power(Z1, Z2)
             IO = "PO" + str(POcounter)
             POcounter += 1
+            ST = "OK"
         if OP == 'LO':
             WY = log(Z1, Z2)
             IO = "LO" + str(LOcounter)
             LOcounter += 1
-        ST="OK" #tak narazie
+            ST = "OK"
 
         setMathOperation()
         putToHistory()
-        answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$WY=" + str(WY) + "$"
+        ZC = time.time() - startTime
+        ZC = str(round(ZC, 2))
+        answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$WY=" + str(WY) + "$ZC=" + str(ZC) + "$"
         print("\nUtworzona odpowiedz: " + answerCode + "\n")
         return answerCode
 
@@ -241,16 +255,35 @@ def executeRequest():
             print(findOperation)
             stringHistory = "@".join(findOperation)
             print("String z historia: " + stringHistory)
-            answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=" + "HS" + "$HS=" + str(stringHistory) + "$"  # string z historia
+            ZC = time.time() - startTime
+            ZC = str(round(ZC, 2))
+            answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=" + "HS" + "$HS=" + str(stringHistory) + "$ZC=" + str(ZC) + "$"  # string z historia
         else:
             print("\nNie znaleziono wskazanej sesji.\n")
             info = "Nie znaleziono wpisow dla podanej sesji."
-            answerCode = "ID=" + str(ID) + "$ST=ER" + "$OP=HS$"  #nie znaleziono wpisow dla podanego id
+            ZC = time.time() - startTime
+            ZC = str(round(ZC, 2))
+            answerCode = "ID=" + str(ID) + "$ST=ER" + "$OP=HS" + "$ZC=" + str(ZC) + "$"  #nie znaleziono wpisow dla podanego id
         return answerCode
 
-    if OP == "HI": #odpwowiedz do klienta na zapytanie o historie konkretnej operacji
-        answerCode = "ID=" + str(ID) + "$ST=" + "OK" + "$OP=" + "HI" + "$HI=" + str("strjakistam") + "$" #hisotira id oepracjireturn answerCode
-        return answerCode
+    if OP == "HI":
+        matcher2 = str(HI)
+        findOperation2 = list(filter(lambda x: matcher2 in x, operationHistory))
+        if len(findOperation2) != 0:
+           print("\nZnaleziono historie dla podanego id sesji.\n")
+           print(findOperation2)
+           findOperation2 = list(filter(lambda x: matcher2 in x, operationHistory))
+           if len(findOperation2) != 0:
+               ZC = time.time() - startTime
+               ZC = str(round(ZC, 2))
+               answerCode = "ID=" + str(ID) + "$ST=" + "OK" + "$OP=" + "HI" + "$HI=" + str(findOperation2) + "$ZC=" + str(ZC) + "$"
+           else:
+               print("\nNie znaleziono wskazanej operacji.\n")
+               info = "Nie znaleziono wskazanej operacji."
+               ZC = time.time() - startTime
+               ZC = str(round(ZC, 2))
+               answerCode = "ID=" + str(ID) + "$ST=" + "ER" + "$OP=" + "HI" + "$HI=" + str(info) + "$ZC=" + str(ZC) + "$"
+    return answerCode
 
 
 def listenIncomingRequest():
@@ -296,6 +329,7 @@ def setMathOperation():
 while 1:
 
    clientsocket, address = serversocket.accept()  # odebranie polaczenia od klienta i akceptacja
+   startTime = time.time()
    print(f'Polaczono z: ', address)
    sendIDsessionToClient()  # wysylanie id sesji do klienta
 
