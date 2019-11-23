@@ -306,7 +306,7 @@ def AskForHistoryByIO():
 
 while 1:
    operation = switchOperation()
-
+    #dziala
    if operation == "FN":
        print ("Zakonczono dzialanie programu, rozlaczono z serwerem.")
        serversocket.close()
