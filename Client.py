@@ -88,7 +88,7 @@ def decodeOperationCodeHS(operationCode):
 
 
    else:
-       print("wystapil nie oczkiwany blad ERRORDOC")
+       print("wystapil blad - prawdopodobnie podano zly identyfikator")
 
 
 
