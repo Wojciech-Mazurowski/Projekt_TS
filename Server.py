@@ -244,7 +244,7 @@ def executeRequest():
         ZC = str(round(ZC, 2))
         answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$WY=" + str(WY) + "$ZC=" + str(ZC) + "$"
         print("\nUtworzona odpowiedz: " + answerCode + "\n")
-        return answerCode
+        #return answerCode
 
     if OP == "HS": #odpowiedz klienta na zapytanie o historie sesji
 
@@ -264,7 +264,7 @@ def executeRequest():
             ZC = time.time() - startTime
             ZC = str(round(ZC, 2))
             answerCode = "ID=" + str(ID) + "$ST=ER" + "$OP=HS" + "$ZC=" + str(ZC) + "$"  #nie znaleziono wpisow dla podanego id
-        return answerCode
+        #return answerCode
 
     if OP == "HI":
         matcher2 = str(HI)
@@ -283,7 +283,7 @@ def executeRequest():
                ZC = time.time() - startTime
                ZC = str(round(ZC, 2))
                answerCode = "ID=" + str(ID) + "$ST=" + "ER" + "$OP=" + "HI" + "$HI=" + str(info) + "$ZC=" + str(ZC) + "$"
-    return answerCode
+           return answerCode
 
 
 def listenIncomingRequest():
@@ -334,6 +334,21 @@ while 1:
    sendIDsessionToClient()  # wysylanie id sesji do klienta
 
    while 1:
+       operationCode = listenIncomingRequest()  # nasluchiwanie na przyjscie zapytania
+       decodeOperationCode(operationCode)
+       sendAnswerForRequest()
+
+       if OP=="RE":
+           clientsocket.close()
+
+           clientsocket, address = serversocket.accept()  # odebranie polaczenia od klienta i akceptacja
+           startTime = time.time()
+           print(f'Polaczono z: ', address)
+           sendIDsessionToClient()  # wysylanie id sesji do klienta
+
+""""
+   while 1:
+       
        print("1. Nasluchuj klienta 2. Wybierz operacje ")
        choice = input("Wybierz operacje do wykonania: ")
        if choice == "1":
@@ -341,20 +356,22 @@ while 1:
                decodeOperationCode(operationCode)
                sendAnswerForRequest()
        if choice == "2":
-           operation = switchOperations()
 
-           if operation == "FN":
-               print("Zakonczono dzialanie programu.")
-               clientsocket.close()
-               break
-           elif operation == "HS":
-               print("Wyswietlenie historii obliczen przez ID sesji.\n")
-               displayMathOperationsHistorySession()
-           elif operation == "HO":
-               print("Wyswietlenie historii obliczens przez ID obliczen.\n")
-               displayMathOperationsHistoryOperationID()
-           elif operation == "HA":
-               print("Wyswietlenie wszystkich wykonanych dotychczas operacji matematycznych.\n")
-               displayAllMathOperations()
-           else:
-               print("\nPodano nieprawidlowy numer operacji, sprobuj jeszcze raz...")
+       operation = switchOperations()
+
+       if operation == "FN":
+           print("Zakonczono dzialanie programu.")
+           clientsocket.close()
+           break
+       elif operation == "HS":
+           print("Wyswietlenie historii obliczen przez ID sesji.\n")
+           displayMathOperationsHistorySession()
+       elif operation == "HO":
+           print("Wyswietlenie historii obliczens przez ID obliczen.\n")
+           displayMathOperationsHistoryOperationID()
+       elif operation == "HA":
+           print("Wyswietlenie wszystkich wykonanych dotychczas operacji matematycznych.\n")
+           displayAllMathOperations()
+       else:
+           print("\nPodano nieprawidlowy numer operacji, sprobuj jeszcze raz...")
+"""""
