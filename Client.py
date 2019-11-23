@@ -88,7 +88,7 @@ def decodeOperationCodeHS(operationCode):
 
 
    else:
-       print("tutaj bedzie dekodowanie zapytania o historie sesji/konkretengo dzialnia")
+       print("wystapil nie oczkiwany blad ERRORDOC")
 
 
 
@@ -128,7 +128,7 @@ def decodeOperationCodeHSS(operationCode):
        print("Druga zmienna: " + WY)
 
        WYN = splitedOperationCode[5]
-       WYN = WYN[3:]
+       WYN = WYN[3:-1]
        print("Wynik: " + WYN )
 
 
@@ -149,7 +149,7 @@ def decodeOperationCode(operationCode):
    global Z1
    global Z2
    if len(operationCode) >= 20:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
-      # print("\nOtrzymany kod od serwea: " + operationCode)
+
 
        splitedOperationCode = operationCode.split("$", 5)
        ID = splitedOperationCode[0]
@@ -178,7 +178,7 @@ def decodeOperationCode(operationCode):
 
 
    else:
-       print("tutaj bedzie dekodowanie zapytania o historie sesji/konkretengo dzialnia")
+       print("Wystapil nieoczekiwany blad :(")
 
 
 def switchMathOperation():

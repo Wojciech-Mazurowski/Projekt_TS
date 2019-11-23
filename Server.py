@@ -244,7 +244,7 @@ def executeRequest():
         ZC = str(round(ZC, 2))
         answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$WY=" + str(WY) + "$ZC=" + str(ZC) + "$"
         print("\nUtworzona odpowiedz: " + answerCode + "\n")
-        #return answerCode
+        return answerCode
 
     if OP == "HS": #odpowiedz klienta na zapytanie o historie sesji
 
@@ -264,7 +264,7 @@ def executeRequest():
             ZC = time.time() - startTime
             ZC = str(round(ZC, 2))
             answerCode = "ID=" + str(ID) + "$ST=ER" + "$OP=HS" + "$ZC=" + str(ZC) + "$"  #nie znaleziono wpisow dla podanego id
-        #return answerCode
+        return answerCode
 
     if OP == "HI":
         matcher2 = str(HI)
