@@ -233,7 +233,7 @@ def executeRequest():
             POcounter += 1
             ST = "OK"
         if OP == 'LO':
-            WY = log(Z1, Z2)
+            WY = log(Z2, Z1)
             IO = "LO" + str(LOcounter)
             LOcounter += 1
             ST = "OK"
