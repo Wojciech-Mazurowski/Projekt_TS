@@ -324,8 +324,8 @@ while 1:
        CreateAndSendMessage(switchMathOperation())
        listenIncoming()
    elif operation == "RE":
-
-       connectingg()
+        AskForRelog()
+        ReceiveID()
    else:
        print("\nPodano nieprawidlowy numer operacji, sprobuj jeszcze raz...")
 
