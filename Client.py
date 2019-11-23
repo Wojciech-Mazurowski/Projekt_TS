@@ -248,8 +248,6 @@ def switchMathOperation():
        '6': "LO", #logarytmowanie
    }.get(choice, "Podano nieprawidlowy numer operacji.")
 
-
-
 def IDO(Operacja):
    global iddod, idode, idmno, iddzi, idpot, idlog
    if Operacja == "DO":
@@ -273,6 +271,23 @@ def CreateAndSendMessage(Operacja):
    serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 #  przykladowy naglowek: IS#1225$$IO#DO5$$OP#DO$$OD#null$$Z1#5Z2#4
+
+
+def AskForRelog():
+    global decodeID
+    wiadomosc ="ID=" + str(*decodeID) + "$ST=" + "null" + "$OP=" + "RE$"
+    serversocket.send(bytes(wiadomosc, 'utf-8'))
+
+
+def ReceiveID():
+    global decodeID
+    id = serversocket.recv(16)
+    idstr = str(id, 'utf8')  # konwertowanie id sesji do formatu utf-8
+    id = str(idstr)
+    decodeID = re.findall(r'\d+', id)  # za pomoca regexu wyciaganie liczby ze stringa ID=tutajidsesji$
+    print("\nPolaczono z serwerem. Twoj identyfikator sesji to: ", *decodeID, sep="")
+
+
 def AskForHistoryByID():
    global decodeID
    IDS = input("Podaj ID sesji do wyswietlenia historii:")
@@ -309,7 +324,7 @@ while 1:
        CreateAndSendMessage(switchMathOperation())
        listenIncoming()
    elif operation == "RE":
-       serversocket.close()
+
        connectingg()
    else:
        print("\nPodano nieprawidlowy numer operacji, sprobuj jeszcze raz...")
