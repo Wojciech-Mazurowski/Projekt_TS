@@ -303,7 +303,7 @@ def sendAnswerForRequest():
 def putToHistory():
    global operationHistory
 
-   mathOperation = "ID=" + str(ID) + "#IO=" + str(IO) + "#OP=" + str(OP) + "#Z1=" + str(Z1) + "#Z2=" + str(Z2) + "#WY=" + str(WY)
+   mathOperation = "ID=" + str(ID) + "#IO=" + str(IO) + "#OP=" + str(OP) + "#Z1=" + str(Z1) + "#Z2=" + str(Z2) + "#WY=" + str(WY) + "#"
    operationHistory.append(mathOperation)
 
 def setMathOperation():
