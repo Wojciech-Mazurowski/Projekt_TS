@@ -276,6 +276,8 @@ def executeRequest():
            if len(findOperation2) != 0:
                ZC = time.time() - startTime
                ZC = str(round(ZC, 2))
+               findOperation2 = str(findOperation2)
+               findOperation2 = findOperation2[:-2]
                answerCode = "ID=" + str(ID) + "$ST=" + "OK" + "$OP=" + "HI" + "$HI=" + str(findOperation2) + "$ZC=" + str(ZC) + "$"
            else:
                print("\nNie znaleziono wskazanej operacji.\n")
