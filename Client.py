@@ -148,6 +148,7 @@ def decodeOperationCode(operationCode):
    global OD
    global Z1
    global Z2
+
    if len(operationCode) >= 20:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
 
 
@@ -328,4 +329,3 @@ while 1:
         ReceiveID()
    else:
        print("\nPodano nieprawidlowy numer operacji, sprobuj jeszcze raz...")
-
