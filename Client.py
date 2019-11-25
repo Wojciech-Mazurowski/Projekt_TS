@@ -105,6 +105,7 @@ def decodeOperationCodeHSS(operationCode):
    global OD
    global Z1
    global Z2
+
    if len(operationCode) >= 20:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
        splitedOperationCode = operationCode.split("#", 5)
        ID = splitedOperationCode[0]
@@ -131,9 +132,8 @@ def decodeOperationCodeHSS(operationCode):
        WYN = WYN[3:-1]
        print("Wynik: " + WYN )
 
-
-      # ZC = splitedOperationCode[6]
-        #ZC = ZC[3:-1]
+       #ZC = splitedOperationCode[6]
+       #ZC = ZC[3:-1]
        #print("Czas od polaczenia:" + ZC + "s")
 
 
