@@ -1,5 +1,7 @@
 import re
 import socket
+import time
+from _datetime import datetime
 from re import split
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #utworzenie gniazda
 def connectingg():
@@ -16,13 +18,18 @@ def connectingg():
    print("Czekam na polaczenie...")
    while not connected:
            try:
-               serversocket.connect((socket.gethostname(), 1234)) # nawiazanie polaczenia
+               serversocket.connect(("172.20.10.2", 1234)) # nawiazanie polaczenia
                connected = True
-               id = serversocket.recv(16)
+               id = serversocket.recv(1024)
                idstr = str(id, 'utf8')  # konwertowanie id sesji do formatu utf-8
                id = str(idstr)
-               decodeID = re.findall(r'\d+', id)  # za pomoca regexu wyciaganie liczby ze stringa ID=tutajidsesji$
-               print("\nPolaczono z serwerem. Twoj identyfikator sesji to: ", *decodeID, sep="")
+               id = id.split("$", 10)
+               decodeID = id[0]
+               decodeID = decodeID[3:]
+               czas = id[3]
+               czas = czas[3:]
+               print("\nPolaczono z serwerem. Twoj identyfikator sesji to: ", decodeID, sep="")
+               print("Znacznik czasu: ", czas)
                # gwiazdka i ten sep musi byc, bo regex po wyciagnieciu danej wartosci wrzuca ja do listy
                # i wtedy wyswietla z nawiasami kwadratowymi i rownoscia, dzieki temu wyswietla tylko sama wartosc
            except Exception as e:
@@ -38,7 +45,7 @@ def switchOperation():
    print("1. Historia obliczen przez podanie ID sesji.")
    print("2. Historia obliczen przez podanie ID obliczen.")
    print("3. Wykonywanie operacji matematycznych.")
-   print("4. Polacz sie ponownie.")
+   print("4. Zmien uzytkownika (zmiana id sesji).")
    choice = input("\nWybierz operacje do wykonania (podaj numer): ")
 
    return {
@@ -95,8 +102,8 @@ def decodeOperationCodeHS(operationCode):
 def listenIncomingHS():
    receivedOperationCode = serversocket.recv(1024)
    operationCode = str(receivedOperationCode, 'utf-8')
+   print(operationCode)
    decodeOperationCodeHS(operationCode)
-
 
 def decodeOperationCodeHSS(operationCode):
    global IS
@@ -128,13 +135,12 @@ def decodeOperationCodeHSS(operationCode):
        print("Druga zmienna: " + WY)
 
        WYN = splitedOperationCode[5]
-       WYN = WYN[3:-1]
+       WYN = WYN[3:]
        print("Wynik: " + WYN )
 
-
-      # ZC = splitedOperationCode[6]
-        #ZC = ZC[3:-1]
-       #print("Czas od polaczenia:" + ZC + "s")
+       ZC = splitedOperationCode[6]
+       ZC = ZC[3:-1]
+       print("Czas od polaczenia:" + ZC + "s")
 
 
    else:
@@ -168,14 +174,16 @@ def decodeOperationCode(operationCode):
        OP = splitedOperationCode[3]
        OP = OP[3:]
        print("operacja mat: " + OP)
-
-       WY= splitedOperationCode[4]
-       WY = WY[3:]
-       print("Odpowiedz: " + WY)
+       if ST != "ER":
+           WY= splitedOperationCode[4]
+           WY = WY[3:]
+           print("Odpowiedz: " + WY)
+       if ST == "ER":
+           print("Wystapil blad, Podano niewlasciwa wartosc")
 
        ZC = splitedOperationCode[5]
        ZC = ZC[3:-1]
-       print("Czas od polaczenia:" + ZC + "s")
+       print("Data, godzina wykonania operacji: " + ZC + "s")
 
 
    else:
@@ -209,9 +217,6 @@ def switchMathOperation():
        z1 = input("Wprowadz pierwsza liczbe:")
        z2 = input("Wprowadz druga liczbe:")
        iddzi = iddzi +1
-       while z2 == "0":
-           print("Nie wolno dzielic przez 0")
-           z2 = input("Podaj liczbe rozna od 0")
    if choice == "5":
        print("\nWybrano potegowanie:")
        z1 = input("Wprowadz pierwsza liczbe:")
@@ -220,19 +225,9 @@ def switchMathOperation():
    if choice == "6":
        print("\nWybrano logarytmowanie:")
        z1 = input("Wprowadz podstawe:")
+       z2 = input("wprowadz liczbe do logarytmowania")
        idlog = idlog + 1
-       while z1.isalpha():
-           print("Zmienne musza byc liczba!")
-           z1 = input("Podaj pierwsza LICZBE: ")
-       while int(z1) <= 0 or int(z1) == 1:
-           print("\nPodstawa logarytmu nie moze byc mniejsza lub rowna od 0 ani rowna 1:")
-           z1 = input("wprowadz inna podstawe")
-       z2 = input("Wprowadz liczbe do logarytmowania:")
-       while z2.isalpha():
-           print("Zmienne musza byc liczba!")
-           z2 = input("Podaj druga LICZBE: ")
-       while int(z2) <= 0:
-           z2 = input("Liczba logarytmowana musi byc dodatnia, podaj inna liczbe")
+
 
    while z1.isalpha() or z2.isalpha():
         print("Zmienne musza byc liczba!")
@@ -241,34 +236,40 @@ def switchMathOperation():
    z1=int(z1)
    z2=int(z2)
    return {
-       '1': "DO", #dodawanie
-       '2': "OD", #odejmowanie
-       '3': "MN", #mnozenie
-       '4': "DZ", #dzielenie
-       '5': "PO", #potegowanie
-       '6': "LO", #logarytmowanie
+       '1': "dodawaj", #dodawanie
+       '2': "odejmuj", #odejmowanie
+       '3': "mnoz", #mnozenie
+       '4': "dziel", #dzielenie
+       '5': "poteguj", #potegowanie
+       '6': "logarytmuj", #logarytmowanie
    }.get(choice, "Podano nieprawidlowy numer operacji.")
 
 def IDO(Operacja):
    global iddod, idode, idmno, iddzi, idpot, idlog
-   if Operacja == "DO":
+   if Operacja == "dodawaj":
        return iddod
-   if Operacja == "OD":
+   if Operacja == "odejmuj":
        return idode
-   if Operacja == "MN":
+   if Operacja == "mnoz":
        return idmno
-   if Operacja == "DZ":
+   if Operacja == "dziel":
        return iddzi
-   if Operacja == "PO":
+   if Operacja == "poteguj":
        return idpot
-   if Operacja == "LO":
+   if Operacja == "logarytmuj":
        return idlog
 def CreateAndSendMessage(Operacja):
    global z1
    global z2
    global id
    global decodeID
-   wiadomosc = "ID=" + str(*decodeID) + "$ST=" + "null" + "$IO="+ Operacja + str(IDO(Operacja)) + "$OP=" + Operacja + "$Z1=" + str(z1) + "$Z2=" + str(z2) + "$"
+   nowTime = datetime.now()
+   year = nowTime.strftime("%Y")
+   month = nowTime.strftime("%m")
+   day = nowTime.strftime("%d")
+   time = nowTime.strftime("%H:%M:%S")
+   ZC = nowTime.strftime("%d/%m/%Y,%H:%M:%S")
+   wiadomosc = "ID=" + str(decodeID) + "$ST=" + "null" + "$IO="+ Operacja + str(IDO(Operacja)) + "$OP=" + Operacja + "$Z1=" + str(z1) + "$Z2=" + str(z2) + "$ZC=" + str(ZC) + "$"
    serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 #  przykladowy naglowek: IS#1225$$IO#DO5$$OP#DO$$OD#null$$Z1#5Z2#4
@@ -276,32 +277,55 @@ def CreateAndSendMessage(Operacja):
 
 def AskForRelog():
     global decodeID
-    wiadomosc ="ID=" + str(*decodeID) + "$ST=" + "null" + "$OP=" + "RE$"
+    nowTime = datetime.now()
+    year = nowTime.strftime("%Y")
+    month = nowTime.strftime("%m")
+    day = nowTime.strftime("%d")
+    time = nowTime.strftime("%H:%M:%S")
+    ZC = nowTime.strftime("%d/%m/%Y,%H:%M:%S")
+    wiadomosc ="ID=" + str(decodeID) + "$ST=" + "null" + "$OP=" + "RE$ZC=" + str(ZC) + "$"
     serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 
 def ReceiveID():
     global decodeID
-    id = serversocket.recv(16)
+    id = serversocket.recv(1024)
     idstr = str(id, 'utf8')  # konwertowanie id sesji do formatu utf-8
     id = str(idstr)
-    decodeID = re.findall(r'\d+', id)  # za pomoca regexu wyciaganie liczby ze stringa ID=tutajidsesji$
-    print("\nPolaczono z serwerem. Twoj identyfikator sesji to: ", *decodeID, sep="")
+    id = id.split("$", 10)
+    decodeID = id[0]
+    decodeID = decodeID[3:]
+    czas = id[3]
+    czas = czas[3:]
+    print("\nPolaczono z serwerem. Twoj nowy identyfikator sesji to: ", decodeID, sep="")
+    print("Znacznik czasu: ", czas)
 
 
 def AskForHistoryByID():
    global decodeID
+   nowTime = datetime.now()
+   year = nowTime.strftime("%Y")
+   month = nowTime.strftime("%m")
+   day = nowTime.strftime("%d")
+   time = nowTime.strftime("%H:%M:%S")
+   ZC = nowTime.strftime("%d/%m/%Y,%H:%M:%S")
    IDS = input("Podaj ID sesji do wyswietlenia historii:")
    while len(IDS) != 6:
        IDS = input("ID sesji jest niewlasciwy, sprobuj ponownie: \n") #tutaj ma do skutku prosic o conajmniej 6 cyfrowy id sesji
-   wiadomosc = "ID=" + str(*decodeID) + "$ST=" + "null" + "$OP=" + "HS" +  "$HS=" + IDS + "$" #w kazdej wiadomosci ma byc wysylane id biezacej sesji dltego id = id sesji
+   wiadomosc = "ID=" + str(decodeID) + "$ST=" + "null" + "$OP=" + "HS" +  "$HS=" + IDS + "$ZC=" + ZC +"$" #w kazdej wiadomosci ma byc wysylane id biezacej sesji dltego id = id sesji
    serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 def AskForHistoryByIO():
    IDOP = input("Podaj indentyfikator operacji:")
+   nowTime = datetime.now()
+   year = nowTime.strftime("%Y")
+   month = nowTime.strftime("%m")
+   day = nowTime.strftime("%d")
+   time = nowTime.strftime("%H:%M:%S")
+   ZC = nowTime.strftime("%d/%m/%Y,%H:%M:%S")
    while len(IDOP) < 3:
        IDOP = input("ID operacji matematycznej jest niewlasciwy, sprobuj ponownie: \n") #tutaj ma do skutku prosic o conajmniej 3 znakowy id
-   wiadomosc = "ID=" + str(*decodeID) + "$ST=" + "null" + "$OP=" + "HI" + "$IO=" + IDOP + "$"
+   wiadomosc = "ID=" + str(decodeID) + "$ST=" + "null" + "$OP=" + "HI" + "$IO=" + IDOP + "$ZC=" + str(ZC) + "$"
    serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 
