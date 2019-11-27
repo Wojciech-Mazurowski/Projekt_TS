@@ -95,6 +95,7 @@ def decodeOperationCodeHS(operationCode):
         receivedOperationCode = serversocket.recv(1024)
 
         operationCode = str(receivedOperationCode, 'utf-8')
+        print("Kod od servera: " + str(receivedOperationCode))
 
         splitedOperationCode = operationCode.split("$", 5)
 
