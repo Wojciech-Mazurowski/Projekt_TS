@@ -11,21 +11,14 @@ import pickle
 import time
 
 from _datetime import datetime
-
+from time import sleep
 
 
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # utworzenie gniazda
-
 serversocket.bind((socket.gethostname(), 1234))  # dowiazanie do portu 1234
-
 serversocket.listen(5)
 
-
-
 currentSessionID = "0"
-
-
-
 
 
 def setID():  # funkcja tworzaca 6 cyfrowy identyfikator sesji, jest to godzina minuta sekunda polaczenia z uzupelnieniem zerem
@@ -33,35 +26,24 @@ def setID():  # funkcja tworzaca 6 cyfrowy identyfikator sesji, jest to godzina 
     global currentSessionID
 
     nowTime = datetime.now()
-
     idHour = str(nowTime.hour)
-
     idMinute = str(nowTime.minute)
-
     idSecond = str(nowTime.second)
-
     nowTime = datetime.now()
 
     year = nowTime.strftime("%Y")
-
     month = nowTime.strftime("%m")
-
     day = nowTime.strftime("%d")
-
     time = nowTime.strftime("%H:%M:%S")
-
     ZC = nowTime.strftime("%d/%m/%Y,%H:%M:%S")
 
     if len(idHour) == 1:
-
         idHour = str(0) + idHour
 
     if len(idMinute) == 1:
-
         idMinute = str(0) + idMinute
 
     if len(idSecond) == 1:
-
         idSecond = str(0) + idSecond
 
     id = str(idHour + idMinute + idSecond).zfill(6)
@@ -73,15 +55,9 @@ def setID():  # funkcja tworzaca 6 cyfrowy identyfikator sesji, jest to godzina 
     return operationID
 
 
-
-
-
 def add(a, b):
 
     return a + b
-
-
-
 
 
 def subtract(a, b):
@@ -89,15 +65,9 @@ def subtract(a, b):
     return a - b
 
 
-
-
-
 def multiply(a, b):
 
     return a * b
-
-
-
 
 
 def divide(a, b):
@@ -105,15 +75,9 @@ def divide(a, b):
     return a / b
 
 
-
-
-
 def log(a, b):
 
     return math.log(a, b)
-
-
-
 
 
 def power(a, b):
@@ -121,37 +85,21 @@ def power(a, b):
     return math.pow(a, b)
 
 
-
-
-
 def switchOperations():
 
     print("\n0. Zakonczenie dzialania programu.")
-
     print("1. Historia obliczen przez podanie ID sesji.")
-
     print("2. Historia obliczen przez podanie ID obliczen.")
-
     print("3. Wyswietlenie wszystkich wykonanych obliczen.")
-
     choice = input("\nWybierz operacje do wykonania (podaj numer): ")
-
-
 
     return {
 
         '0': "FN",  # zakonczenie dzialania programu
-
         '1': "HS",  # wyswietlenie historii obliczen przez ID sesji
-
         '2': "HO",  # odejmowanie historii obliczen przez ID obliczen
-
         '3': "HA",  # wykonywanie wszystkich wykonanych obliczen
-
     }.get(choice, "Podano nieprawidlowy numer operacji.")
-
-
-
 
 
 operationInSessionHistory = []  # lista stringow z operacjami
@@ -159,31 +107,21 @@ operationInSessionHistory = []  # lista stringow z operacjami
 operationHistory = []
 
 
-
-
-
 def displayMathOperationsHistorySession():
 
     operation = input("Podaj 6-cyfrowy ID sesji aby wyswietlic wykonane operacje: \n")
 
     while len(operation) != 6:
-
         operation = input("ID sesji jest niewlasciwy, sprobuj ponownie: \n")
-
     matcher = str(operation)
-
     findOperation = list(filter(lambda x: matcher in x, operationHistory))
 
     if len(findOperation) != 0:
 
         print('\n'.join(operationHistory))
-
     else:
 
         print("\nNie znaleziono wskazanej sesji.\n")
-
-
-
 
 
 def displayMathOperationsHistoryOperationID():
@@ -195,45 +133,29 @@ def displayMathOperationsHistoryOperationID():
         operation = input("ID operacji matematycznej jest niewlasciwy, sprobuj ponownie: \n")
 
     matcher = str(operation)
-
     matcher2 = str(ID)
-
     findOperation = list(filter(lambda x: matcher2 in x, operationHistory))
 
     if len(findOperation) != 0:
-
         findOperation2 = list(filter(lambda x: matcher in x, operationHistory))
 
         if len(findOperation2) != 0:
-
             print('\n'.join(operationHistory))
-
         else:
-
             print("\nNie znaleziono wskazanej operacji.\n")
 
     else:
-
         print("\nNie znaleziono wskazanej operacji.\n")
-
-
-
 
 
 def displayAllMathOperations():
 
     if len(operationHistory) == 0:
-
         print("Historia operacji jest pusta.\n")
 
     else:
-
         print("\nWykonane dzialania matematyczne od momentu uruchomienia serwera: \n")
-
         print('\n'.join(operationHistory))
-
-
-
 
 
 DOcounter = 1
@@ -244,59 +166,33 @@ POcounter = 1
 LOcounter = 1
 
 
-
 ID = 0
-
 ST = 0
-
 IO = 0
-
 OP = 0
-
 OD = 0
-
 WY = 0
-
 Z1 = 0
-
 Z2 = 0
-
 HS = 0
-
 HI = 0
-
 UN = 0
-
 ZC = 0
-
-
-
 
 
 def decodeOperationCode(operationCode):
 
     global ID
-
     global ST
-
     global IO
-
     global OP
-
     global OD
-
     global Z1
-
     global Z2
-
     global WY
-
     global HS
-
     global HI
-
     global UN
-
     global ZC
     global X
     global DOcounter, ODcounter, MNcounter, DZcounter, POcounter, LOcounter
@@ -310,151 +206,89 @@ def decodeOperationCode(operationCode):
     kod = kod[3:]
     OP = kod
     X = operationCode[3]
+
     if kod == "RE":
-
         DOcounter = 1
-
         ODcounter = 1
-
         MNcounter = 1
-
         DZcounter = 1
-
         POcounter = 1
-
         LOcounter = 1
-
         operationInSessionHistory.clear()
-
-
 
     if kod == "dodawaj" or kod == "odejmuj" or kod == "mnoz" or kod == "dziel" or kod == "poteguj" or kod == "logarytmuj":
 
         splitedOperationCode = operationCode
-
         #print("Otrzymany kod od klienta: " + operationCode)
 
-
-
         ID = splitedOperationCode[0]
-
         ID = ID[3:]
-
         print("ID: " + ID)
 
-
-
         ST = splitedOperationCode[1]
-
         ST = ST[3:]
-
         print("ST: " + ST)
 
-
-
         IO = splitedOperationCode[2]
-
         IO = IO[3:]
-
         print("IO: " + IO)
 
-
-
         OP = splitedOperationCode[3]
-
         OP = OP[3:]
-
         print("OP: " + OP)
-
-
 
         Z1 = splitedOperationCode[4]
 
         Z1 = Z1[3:]
-
         print("Z1: " + Z1)
-
         Z1 = int(Z1)
 
-
-
         Z2 = splitedOperationCode[5]
-
         Z2 = Z2[3:]
-
         print("Z2: " + Z2)
-
         Z2 = int(Z2)
 
-
-
         ZC = splitedOperationCode[6]
-
         ZC = ZC[3:-1]
-
         print("ZC: " + ZC)
 
     if kod == "HI" or kod == "HS":
 
         #print("\nTestowy print zebym widzial co przychodzi - Otrzymany kod od klienta historia: " + operationCode)
-
         splitedOperationCode = operationCode
-
         #print(splitedOperationCode)
-
         ID = splitedOperationCode[0]
-
         ID = ID[3:]
-
-
 
         ST = splitedOperationCode[1]
 
         print("ST przed oczyszczeniem: " + ST)
-
         ST = ST[3:]
-
         print("ST " + ST)
-
         OP = splitedOperationCode[2]
-
         OP = OP[3:]
-
-
 
         if OP == "HS":
 
             HS = splitedOperationCode[3]
-
             HS = HS[3:-1]
-
             # print("hHS: " + HS)
 
         if OP == "HI":
 
             HI = splitedOperationCode[3]
-
             HI = HI[3:-1]
-
             # print("hHI: " + HI)
 
-
-
         ZC = splitedOperationCode[4]
-
         ZC = ZC[3:-1]
-
-
-
 
 
 def executeRequest():
 
     global DOcounter, ODcounter, MNcounter, DZcounter, POcounter, LOcounter, OD, WY, ST, OP, ZC, IO, X
-
     if OP == "RE":
         return setID()
-
     if OP == "dodawaj" or OP == "odejmuj" or OP == "mnoz" or OP == "dziel" or OP == "poteguj" or OP == "logarytmuj":
 
         if OP == 'dodawaj':
@@ -580,33 +414,21 @@ def executeRequest():
         if len(findOperation) != 0:
             for x in findOperation:
                 clientsocket.send(bytes(x, "utf-8"))
-                print("wyslana operacja: " + str(x))
-
+                sleep(0.05)
+                print("minal sleep na 50 milisekund, wyslana operacja: " + str(x))
 
             #answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=HS" + "$HS=" + str(stringHistory) + "$ZC=" + str(ZC) + "$"
         else:
-
             print("\nNie znaleziono wskazanej sesji.\n")
-
             info = "Nie znaleziono wpisow dla podanej sesji."
 
-
-
             nowTime = datetime.now()
-
             year = nowTime.strftime("%Y")
-
             month = nowTime.strftime("%m")
-
             day = nowTime.strftime("%d")
-
             time = nowTime.strftime("%H:%M:%S")
-
             ZC = nowTime.strftime("%d/%m/%Y,%H:%M:%S")
-
             #print("ZC: " + ZC)
-
-
 
           #  answerCode = "ID=" + str(ID) + "$ST=ER" + "$OP=HS" + "$HS=" + "null" + "$ZC=" + str(ZC) + "$"
 
@@ -620,14 +442,12 @@ def executeRequest():
         findOperation2 = list(filter(lambda x: matcher2 in x, operationInSessionHistory))
 
         if len(findOperation2) != 0:
-
             nowTime = datetime.now()
             year = nowTime.strftime("%Y")
             month = nowTime.strftime("%m")
             day = nowTime.strftime("%d")
             time = nowTime.strftime("%H:%M:%S")
             ZC = nowTime.strftime("%d/%m/%Y,%H:%M:%S")
-
             answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=HI" + "$ZC=" + str(ZC) + "$"
             clientsocket.send(bytes(answerCode, "utf-8"))
 
@@ -642,39 +462,23 @@ def executeRequest():
             nowTime = datetime.now()
             year = nowTime.strftime("%Y")
             month = nowTime.strftime("%m")
-
             day = nowTime.strftime("%d")
-
             time = nowTime.strftime("%H:%M:%S")
-
             ZC = nowTime.strftime("%d/%m/%Y, %H:%M:%S")
-
-
 
 
         else:
 
             print("\nNie znaleziono wskazanej operacji.\n")
-
             info = "null"
 
-
-
             nowTime = datetime.now()
-
             year = nowTime.strftime("%Y")
-
             month = nowTime.strftime("%m")
-
             day = nowTime.strftime("%d")
-
             time = nowTime.strftime("%H:%M:%S")
-
             ZC = nowTime.strftime("%d/%m/%Y,%H:%M:%S")
-
             print("ZC: " + ZC)
-
-
 
             answerCode = "ID=" + str(ID) + "$ST=" + "ER" + "$OP=" + "HI" + "$HI=" + "null" + "$ZC=" + str(ZC) + "$"
             clientsocket.send(bytes(answerCode, "utf-8"))
@@ -715,8 +519,6 @@ def sendAnswerForRequest():
 def putToHistory(ZC):
 
     global operationHistory, operationInSessionHistory
-
-
 
     mathOperation = "ID=" + str(ID) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$Z1=" + str(Z1) + "$Z2=" + str(
 
