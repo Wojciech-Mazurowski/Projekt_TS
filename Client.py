@@ -122,8 +122,11 @@ def decodeOperationCodeHSIO(operationCode):
         print("Zmienna 1: " + ZC2)
 
         WY = splitedOperationCode[5]
-        WY = WY[3:-1]
+        WY = WY[3:]
         print("Wynik: " + WY)
+        ZC = splitedOperationCode[6]
+        ZC = ZC[3:-1]
+        print("Wynik: " + ZC)
     else:
         print("Wystapil blad - nie znaleziono operacji o podanym ID w historii")
 
