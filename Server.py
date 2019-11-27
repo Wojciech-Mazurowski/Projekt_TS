@@ -81,7 +81,7 @@ def switchOperations():
     print("\n0. Zakonczenie dzialania programu.")
     print("1. Historia obliczen przez podanie ID sesji.")
     print("2. Historia obliczen przez podanie ID obliczen.")
-    print("3. Wyswietlenie wszystkich wykonanych obliczen.")
+    print("3. Wyswietlenie wszystkich wykonanych obliczen. ")
     choice = input("\nWybierz operacje do wykonania (podaj numer):  ")
 
     return {
