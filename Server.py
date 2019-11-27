@@ -530,30 +530,17 @@ def executeRequest():
                 LOcounter += 1
                 ST = "OK"
 
-
-
         setMathOperation()
 
-        putToHistory()
-
-
-
         nowTime = datetime.now()
-
         year = nowTime.strftime("%Y")
-
         month = nowTime.strftime("%m")
-
         day = nowTime.strftime("%d")
-
         time = nowTime.strftime("%H:%M:%S")
-
         ZC = nowTime.strftime("%d/%m/%Y,%H:%M:%S")
-
         #print("ZC: " + ZC)
 
-
-
+        putToHistory(ZC)
         answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$WY=" + str(
 
             WY) + "$ZC=" + str(ZC) + "$"
@@ -570,14 +557,10 @@ def executeRequest():
 
         '''matcher = str(HS)
         findOperation = list(filter(lambda x: matcher in x, operationHistory))
-
         if len(findOperation) != 0:
-
             print("\nZnaleziono historie dla podanego id sesji.\n")
-
             print(findOperation)
             stringHistory = "@".join(findOperation)
-
             print("String z historia: " + stringHistory)
             '''
         nowTime = datetime.now()
@@ -729,7 +712,7 @@ def sendAnswerForRequest():
         clientsocket.send(bytes(str(odpowiedz), 'utf8'))
 
 
-def putToHistory():
+def putToHistory(ZC):
 
     global operationHistory, operationInSessionHistory
 
@@ -737,7 +720,7 @@ def putToHistory():
 
     mathOperation = "ID=" + str(ID) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$Z1=" + str(Z1) + "$Z2=" + str(
 
-        Z2) + "$WY=" + str(WY) + "$"
+        Z2) + "$WY=" + str(WY) + "$ZC=" + str(ZC) + "$"
 
     operationHistory.append(mathOperation)  # dodanie do historii sesji
     print("historia sesji: " + str(operationHistory))
