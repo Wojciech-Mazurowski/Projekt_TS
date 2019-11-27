@@ -16,7 +16,7 @@ from _datetime import datetime
 
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # utworzenie gniazda
 
-serversocket.bind(("172.20.10.2", 1234))  # dowiazanie do portu 1234
+serversocket.bind((socket.gethostname(), 1234))  # dowiazanie do portu 1234
 
 serversocket.listen(5)
 
@@ -648,8 +648,9 @@ def executeRequest():
             answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=HI" + "$ZC=" + str(ZC) + "$"
             clientsocket.send(bytes(answerCode, "utf-8"))
 
-
-            clientsocket.send(bytes(findOperation2[0], "utf-8"))
+            anwser = findOperation2[0]
+            print("WITAM" + anwser)
+            clientsocket.send(bytes(anwser, "utf-8"))
             print("wyslana operacja: " + findOperation2[0])
 
             nowTime = datetime.now()
@@ -728,7 +729,7 @@ def sendIDsessionToClient():
 
 def sendAnswerForRequest():
     odpowiedz = executeRequest()
-    if odpowiedz != "0":
+    if str(odpowiedz) != "0":
         clientsocket.send(bytes(str(odpowiedz), 'utf8'))
 
 
