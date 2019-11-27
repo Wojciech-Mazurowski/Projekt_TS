@@ -119,7 +119,7 @@ def decodeOperationCodeHSIO(operationCode):
 
         ZC2 = splitedOperationCode[4]
         ZC2 = ZC2[3:]
-        print("Zmienna 1: " + ZC2)
+        print("Zmienna 2: " + ZC2)
 
         WY = splitedOperationCode[5]
         WY = WY[3:]
