@@ -99,8 +99,8 @@ def decodeOperationCodeHSIO(operationCode):
 
         operationCode = str(receivedOperationCode, 'utf-8')
 
-        splitedOperationCode = operationCode.split("$", 5)
-
+        splitedOperationCode = operationCode.split("$", 30)
+        print("SPRAWDZANKO" + str(splitedOperationCode))
         ID = splitedOperationCode[0]
         ID = ID[3:]
         print("\nID sesji: " + ID)
@@ -126,7 +126,7 @@ def decodeOperationCodeHSIO(operationCode):
         print("Wynik: " + WY)
         ZC = splitedOperationCode[6]
         ZC = ZC[3:-1]
-        print("Wynik: " + ZC)
+        print("ZC: " + ZC)
     else:
         print("Wystapil blad - nie znaleziono operacji o podanym ID w historii")
 
