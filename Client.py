@@ -8,6 +8,7 @@ serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #utworzenie gni
 def connectingg():
    global iddod, idode, idmno, iddzi, idpot, idlog
    global id
+   IPw = input("Podaj IP serwera: ")
    iddod=0
    idode=0
    idmno=0
@@ -19,7 +20,7 @@ def connectingg():
    print("Czekam na polaczenie...")
    while not connected:
            try:
-               serversocket.connect((socket.gethostname(), 1234)) # nawiazanie polaczenia
+               serversocket.connect((IPw, 1234)) # nawiazanie polaczenia
                connected = True
                id = serversocket.recv(1024)
                idstr = str(id, 'utf8')  # konwertowanie id sesji do formatu utf-8

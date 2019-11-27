@@ -6,9 +6,9 @@ import time
 from _datetime import datetime
 from time import sleep
 
-
+IPw = input("Podaj IP serwera: ")
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # utworzenie gniazda
-serversocket.bind((socket.gethostname(), 1234))  # dowiazanie do portu 1234
+serversocket.bind((IPw, 1234))  # dowiazanie do portu 1234
 serversocket.listen(5)
 
 currentSessionID = "0"
