@@ -81,49 +81,57 @@ def decodeOperationCodeHSIO(operationCode):
 
     OP = splitedOperationCode[2]
     OP = OP[3:]
-
+    NR = 1
     print("Operacja: " + OP)
     if ST != "ER":
         ZC= splitedOperationCode[3]
+        if OP == "HS":
+            NRS = splitedOperationCode[4]
+            NRS = NRS[3:]
+            NR = int(NRS)
     else:
         ZC = splitedOperationCode[4]
     ZC = ZC[3:]
     print("ZC: " + ZC)
-    second="xx"
-    operationCode="x"
+
+
+
+
+
     if ST!="ER":
         print("\nWyszukane dzialania:")
-        receivedOperationCode = serversocket.recv(1024)
-        operationCode = str(receivedOperationCode, 'utf-8')
-        second = operationCode
+        for x in range(NR):
+            receivedOperationCode = serversocket.recv(1024)
+            operationCode = str(receivedOperationCode, 'utf-8')
+            second = operationCode
 
-        splitedOperationCode = operationCode.split("$", 30)
+            splitedOperationCode = operationCode.split("$", 30)
 
-        ID = splitedOperationCode[0]
-        ID = ID[3:]
-        print("\nID sesji: " + ID)
-        ST = splitedOperationCode[1]
-        ST = ST[3:]
-        print("Status: " + ST)
+            ID = splitedOperationCode[0]
+            ID = ID[3:]
+            print("\nID sesji: " + ID)
+            ST = splitedOperationCode[1]
+            ST = ST[3:]
+            print("Status: " + ST)
 
-        IO = splitedOperationCode[2]
-        IO = IO[3:]
-        print("ID operacji: " + IO)
+            IO = splitedOperationCode[2]
+            IO = IO[3:]
+            print("ID operacji: " + IO)
 
-        ZC1 = splitedOperationCode[3]
-        ZC1 = ZC1[3:]
-        print("Zmienna 1: " + ZC1)
+            ZC1 = splitedOperationCode[3]
+            ZC1 = ZC1[3:]
+            print("Zmienna 1: " + ZC1)
 
-        ZC2 = splitedOperationCode[4]
-        ZC2 = ZC2[3:]
-        print("Zmienna 2: " + ZC2)
+            ZC2 = splitedOperationCode[4]
+            ZC2 = ZC2[3:]
+            print("Zmienna 2: " + ZC2)
 
-        WY = splitedOperationCode[5]
-        WY = WY[3:]
-        print("Wynik: " + WY)
-        ZC = splitedOperationCode[6]
-        ZC = ZC[3:-1]
-        print("ZC: " + ZC)
+            WY = splitedOperationCode[5]
+            WY = WY[3:]
+            print("Wynik: " + WY)
+            ZC = splitedOperationCode[6]
+            ZC = ZC[3:-1]
+            print("ZC: " + ZC)
 
 
 
@@ -287,6 +295,7 @@ def ReceiveID():
     id = str(idstr)
     id = id.split("$", 10)
     decodeID = id[0]
+    print("O takie cos dostalem" + str(id))
     decodeID = decodeID[3:]
     czas = id[3]
     czas = czas[3:]
