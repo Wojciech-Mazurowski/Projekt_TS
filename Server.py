@@ -1,15 +1,8 @@
 import math
-
 import re
-
 import socket
-
 import datetime
-
-import pickle
-
 import time
-
 from _datetime import datetime
 from time import sleep
 
@@ -22,9 +15,7 @@ currentSessionID = "0"
 
 
 def setID():  # funkcja tworzaca 6 cyfrowy identyfikator sesji, jest to godzina minuta sekunda polaczenia z uzupelnieniem zerem
-
     global currentSessionID
-
     nowTime = datetime.now()
     idHour = str(nowTime.hour)
     idMinute = str(nowTime.minute)
@@ -389,14 +380,6 @@ def executeRequest():
 
     if OP == "HS":  # odpowiedz klienta na zapytanie o historie sesji
 
-        '''matcher = str(HS)
-        findOperation = list(filter(lambda x: matcher in x, operationHistory))
-        if len(findOperation) != 0:
-            print("\nZnaleziono historie dla podanego id sesji.\n")
-            print(findOperation)
-            stringHistory = "@".join(findOperation)
-            print("String z historia: " + stringHistory)
-            '''
         nowTime = datetime.now()
         year = nowTime.strftime("%Y")
         month = nowTime.strftime("%m")
@@ -404,14 +387,12 @@ def executeRequest():
         time = nowTime.strftime("%H:%M:%S")
         ZC = nowTime.strftime("%d/%m/%Y,%H:%M:%S")
 
-        # print("ZC: " + ZC)
-
-        answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=HS" + "$ZC=" + str(ZC) + "$"
-        clientsocket.send(bytes(answerCode, "utf-8"))
-
         matcher = str(HS)
         findOperation = list(filter(lambda x: matcher in x, operationHistory))
+
         if len(findOperation) != 0:
+            answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=HS" + "$ZC=" + str(ZC) + "$"
+            clientsocket.send(bytes(answerCode, "utf-8"))
             for x in findOperation:
                 clientsocket.send(bytes(x, "utf-8"))
                 sleep(0.05)
@@ -428,8 +409,9 @@ def executeRequest():
             day = nowTime.strftime("%d")
             time = nowTime.strftime("%H:%M:%S")
             ZC = nowTime.strftime("%d/%m/%Y,%H:%M:%S")
-            #print("ZC: " + ZC)
-          #  answerCode = "ID=" + str(ID) + "$ST=ER" + "$OP=HS" + "$HS=" + "null" + "$ZC=" + str(ZC) + "$"
+
+            answerCode = "ID=" + str(ID) + "$ST=ER" + "$OP=HS" + "$ZC=" + str(ZC) + "$"
+            clientsocket.send(bytes(answerCode, "utf-8"))
 
         return 0
 
