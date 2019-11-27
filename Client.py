@@ -1,6 +1,7 @@
 import re
 import socket
 import time
+from time import sleep
 from _datetime import datetime
 from re import split
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #utworzenie gniazda
@@ -68,8 +69,7 @@ def decodeOperationCodeHSIO(operationCode):
     global OD
     global Z1
     global Z2
-
-
+    print("czesc " + str(operationCode))
     splitedOperationCode = operationCode.split("$", 5)
     ID = splitedOperationCode[0]
     ID = ID[3:]
@@ -89,22 +89,19 @@ def decodeOperationCodeHSIO(operationCode):
         ZC = splitedOperationCode[4]
     ZC = ZC[3:]
     print("ZC: " + ZC)
-
+    second="xx"
+    operationCode="x"
     if ST!="ER":
-        print("\nWyszukane dzialanie:")
-        try:
-            receivedOperationCode = serversocket.recv(1024)
-        except Exception as e:
-            pass
-
+        print("\nWyszukane dzialania:")
+        receivedOperationCode = serversocket.recv(1024)
         operationCode = str(receivedOperationCode, 'utf-8')
+        second = operationCode
 
         splitedOperationCode = operationCode.split("$", 30)
 
         ID = splitedOperationCode[0]
         ID = ID[3:]
         print("\nID sesji: " + ID)
-
         ST = splitedOperationCode[1]
         ST = ST[3:]
         print("Status: " + ST)
@@ -127,6 +124,11 @@ def decodeOperationCodeHSIO(operationCode):
         ZC = splitedOperationCode[6]
         ZC = ZC[3:-1]
         print("ZC: " + ZC)
+
+
+
+
+
     else:
         print("Wystapil blad - nie znaleziono operacji o podanym ID w historii")
 

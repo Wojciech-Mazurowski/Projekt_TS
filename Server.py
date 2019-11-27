@@ -440,7 +440,13 @@ def executeRequest():
         matcher2 = str(HI)
         findOperation2 = list(filter(lambda x: matcher2 in x, operationInSessionHistory))
 
-        if len(findOperation2) != 0:
+
+        X = int(re.search(r'\d+', X).group())
+        print("X TO: " + str(int(X)))
+        print("Wielkosc to: " + str(int(len(findOperation2))))
+
+
+        if len(findOperation2) != 0 and int(X) <= int(len(findOperation2)):
             nowTime = datetime.now()
             year = nowTime.strftime("%Y")
             month = nowTime.strftime("%m")
@@ -450,9 +456,7 @@ def executeRequest():
             answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=HI" + "$ZC=" + str(ZC) + "$"
             clientsocket.send(bytes(answerCode, "utf-8"))
 
-            print("to jest X ale taki: " + X)
-            X = int(re.search(r'\d+', X).group())
-            print("X TO: " + str(X))
+
             anwser = findOperation2[X-1]
             print("WITAM " + anwser)
             clientsocket.send(bytes(anwser, "utf-8"))
