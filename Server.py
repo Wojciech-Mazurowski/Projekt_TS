@@ -391,7 +391,8 @@ def executeRequest():
         findOperation = list(filter(lambda x: matcher in x, operationHistory))
 
         if len(findOperation) != 0:
-            answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=HS" + "$ZC=" + str(ZC) + "$"
+            print("ilosc znalezionych operacji w hs: " + str(len(findOperation)))
+            answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=HS" + "$ZC=" + str(ZC) + "$" + "NR=" + str(len(findOperation)) + "$"
             clientsocket.send(bytes(answerCode, "utf-8"))
             for x in findOperation:
                 clientsocket.send(bytes(x, "utf-8"))
