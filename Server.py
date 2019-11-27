@@ -647,14 +647,14 @@ def executeRequest():
 
             answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=HI" + "$ZC=" + str(ZC) + "$"
             clientsocket.send(bytes(answerCode, "utf-8"))
-            if  len(findOperation2)<10:
-                print("to jest X ale taki: " + X)
-                X = int(re.search(r'\d+', X).group())
-                print("X TO: " + str(X))
-                anwser = findOperation2[X-1]
-                print("WITAM " + anwser)
-                clientsocket.send(bytes(anwser, "utf-8"))
-                print("wyslana operacja: " + findOperation2[0])
+
+            print("to jest X ale taki: " + X)
+            X = int(re.search(r'\d+', X).group())
+            print("X TO: " + str(X))
+            anwser = findOperation2[X-1]
+            print("WITAM " + anwser)
+            clientsocket.send(bytes(anwser, "utf-8"))
+            print("wyslana operacja: " + findOperation2[0])
 
             nowTime = datetime.now()
             year = nowTime.strftime("%Y")
