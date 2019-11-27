@@ -61,7 +61,7 @@ def listenIncoming():
    operationCode = str(receivedOperationCode, 'utf-8')
    decodeOperationCode(operationCode)
 
-def decodeOperationCodeHS(operationCode):
+def decodeOperationCodeHSIO(operationCode):
     global IS
     global IO
     global OP
@@ -92,10 +92,12 @@ def decodeOperationCodeHS(operationCode):
 
     if ST!="ER":
         print("\nWyszukane dzialanie:")
-        receivedOperationCode = serversocket.recv(1024)
+        try:
+            receivedOperationCode = serversocket.recv(1024)
+        except Exception as e:
+            pass
 
         operationCode = str(receivedOperationCode, 'utf-8')
-        print("Kod od servera: " + str(receivedOperationCode))
 
         splitedOperationCode = operationCode.split("$", 5)
 
@@ -126,10 +128,10 @@ def decodeOperationCodeHS(operationCode):
         print("Wystapil blad - nie znaleziono operacji o podanym ID w historii")
 
 
-def listenIncomingHS():
+def listenIncomingHSIO():
    receivedOperationCode = serversocket.recv(1024)
    operationCode = str(receivedOperationCode, 'utf-8')
-   decodeOperationCodeHS(operationCode)
+   decodeOperationCodeHSIO(operationCode)
 
 
 
@@ -325,11 +327,11 @@ while 1:
    elif operation == "HS":
        print("Wyswietlenie historii obliczen przez ID sesji.")
        AskForHistoryByID()
-       listenIncomingHS()
+       listenIncomingHSIO()
    elif operation == "HO":
        print("Wyswietlenie historii obliczens przez ID obliczen.")
        AskForHistoryByIO()
-       listenIncomingHS()
+       listenIncomingHSIO()
    elif operation == "OB":
        print("Wykonywanie operacji matematycznych.")
        CreateAndSendMessage(switchMathOperation())
