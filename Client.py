@@ -62,89 +62,74 @@ def listenIncoming():
    decodeOperationCode(operationCode)
 
 def decodeOperationCodeHS(operationCode):
-   global IS
-   global IO
-   global OP
-   global OD
-   global Z1
-   global Z2
-   if len(operationCode) >= 20:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
-      # print("\nOtrzymany kod od serwea: " + operationCode)
-
-       splitedOperationCode = operationCode.split("$", 5)
-       ID = splitedOperationCode[0]
-       ID = ID[3:]
-       print("\nID sesji: " + ID)
-
-       ST = splitedOperationCode[1]
-       ST = ST[3:]
-       print("Status: " + ST)
-
-       OP = splitedOperationCode[2]
-       OP = OP[3:]
-       print("Operacja: " + OP)
-
-       WY= splitedOperationCode[3]
-       WY = WY[3:]
-
-       splitedanwser = WY.split("@", 1024)
-       print("\nHISTORIA: ")
-       for x in splitedanwser:
-           decodeOperationCodeHSS(x)
+    global IS
+    global IO
+    global OP
+    global OD
+    global Z1
+    global Z2
 
 
+    splitedOperationCode = operationCode.split("$", 5)
+    ID = splitedOperationCode[0]
+    ID = ID[3:]
+    print("\nID sesji: " + ID)
 
-   else:
-       print("wystapil blad - prawdopodobnie podano zly identyfikator")
+    ST = splitedOperationCode[1]
+    ST = ST[3:]
+    print("Status: " + ST)
 
+    OP = splitedOperationCode[2]
+    OP = OP[3:]
+
+    print("Operacja: " + OP)
+    if ST != "ER":
+        ZC= splitedOperationCode[3]
+    else:
+        ZC = splitedOperationCode[4]
+    ZC = ZC[3:]
+    print("ZC: " + ZC)
+
+    if ST!="ER":
+        print("\nWyszukane dzialanie:")
+        receivedOperationCode = serversocket.recv(1024)
+
+        operationCode = str(receivedOperationCode, 'utf-8')
+
+        splitedOperationCode = operationCode.split("$", 5)
+
+        ID = splitedOperationCode[0]
+        ID = ID[3:]
+        print("\nID sesji: " + ID)
+
+        ST = splitedOperationCode[1]
+        ST = ST[3:]
+        print("Status: " + ST)
+
+        IO = splitedOperationCode[2]
+        IO = IO[3:]
+        print("ID operacji: " + IO)
+
+        ZC1 = splitedOperationCode[3]
+        ZC1 = ZC1[3:]
+        print("Zmienna 1: " + ZC1)
+
+        ZC2 = splitedOperationCode[4]
+        ZC2 = ZC2[3:]
+        print("Zmienna 1: " + ZC2)
+
+        WY = splitedOperationCode[5]
+        WY = WY[3:-1]
+        print("Wynik: " + WY)
+    else:
+        print("Wystapil blad - nie znaleziono operacji o podanym ID w historii")
 
 
 def listenIncomingHS():
    receivedOperationCode = serversocket.recv(1024)
    operationCode = str(receivedOperationCode, 'utf-8')
-   print(operationCode)
    decodeOperationCodeHS(operationCode)
 
-def decodeOperationCodeHSS(operationCode):
-   global IS
-   global IO
-   global OP
-   global OD
-   global Z1
-   global Z2
-   if len(operationCode) >= 20:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
-       splitedOperationCode = operationCode.split("#", 5)
-       ID = splitedOperationCode[0]
-       ID = ID[3:]
-      # print("id sesji: " + ID)
-
-       ST = splitedOperationCode[1]
-       ST = ST[3:]
-       print("\nID operacji: " + ST)
-
-       IO = splitedOperationCode[2]
-       IO = IO[3:]
-       print("Operacja: " + IO)
-
-       OP = splitedOperationCode[3]
-       OP = OP[3:]
-       print("Pierwsza zmienna: " + OP)
-
-       WY= splitedOperationCode[4]
-       WY = WY[3:]
-       print("Druga zmienna: " + WY)
-
-       WYN = splitedOperationCode[5]
-       WYN = WYN[3:]
-       print("Wynik: " + WYN )
-
-       ZC = splitedOperationCode[6]
-       ZC = ZC[3:-1]
-       print("Czas od polaczenia:" + ZC + "s")
-
-
-   else:
-       print("Wystapil blad - prawdopodobnie podano zly identyfikator")
 
 
 def decodeOperationCode(operationCode):

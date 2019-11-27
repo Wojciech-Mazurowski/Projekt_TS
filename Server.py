@@ -698,7 +698,7 @@ def executeRequest():
 
 
             answerCode = "ID=" + str(ID) + "$ST=" + "ER" + "$OP=" + "HI" + "$HI=" + "null" + "$ZC=" + str(ZC) + "$"
-
+            clientsocket.send(bytes(answerCode, "utf-8"))
             print("odpowiedz do klienta na id operacji nie znaleziono: " + str(answerCode))
 
         return 0
