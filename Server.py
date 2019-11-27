@@ -423,11 +423,9 @@ def executeRequest():
         matcher2 = str(HI)
         findOperation2 = list(filter(lambda x: matcher2 in x, operationInSessionHistory))
 
-
         X = int(re.search(r'\d+', X).group())
         print("X TO: " + str(int(X)))
         print("Wielkosc to: " + str(int(len(findOperation2))))
-
 
         if len(findOperation2) != 0 and int(X) <= int(len(findOperation2)):
             nowTime = datetime.now()
