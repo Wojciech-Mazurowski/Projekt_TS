@@ -100,7 +100,7 @@ def decodeOperationCodeHSIO(operationCode):
         operationCode = str(receivedOperationCode, 'utf-8')
 
         splitedOperationCode = operationCode.split("$", 30)
-        print("SPRAWDZANKO" + str(splitedOperationCode))
+       
         ID = splitedOperationCode[0]
         ID = ID[3:]
         print("\nID sesji: " + ID)
