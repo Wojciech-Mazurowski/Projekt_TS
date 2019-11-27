@@ -429,7 +429,6 @@ def executeRequest():
             time = nowTime.strftime("%H:%M:%S")
             ZC = nowTime.strftime("%d/%m/%Y,%H:%M:%S")
             #print("ZC: " + ZC)
-
           #  answerCode = "ID=" + str(ID) + "$ST=ER" + "$OP=HS" + "$HS=" + "null" + "$ZC=" + str(ZC) + "$"
 
         return 0
