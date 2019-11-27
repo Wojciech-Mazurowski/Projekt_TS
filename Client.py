@@ -69,7 +69,6 @@ def decodeOperationCodeHSIO(operationCode):
     global OD
     global Z1
     global Z2
-    print("czesc " + str(operationCode))
     splitedOperationCode = operationCode.split("$", 5)
     ID = splitedOperationCode[0]
     ID = ID[3:]
@@ -295,7 +294,6 @@ def ReceiveID():
     id = str(idstr)
     id = id.split("$", 10)
     decodeID = id[0]
-    print("O takie cos dostalem" + str(id))
     decodeID = decodeID[3:]
     czas = id[3]
     czas = czas[3:]
