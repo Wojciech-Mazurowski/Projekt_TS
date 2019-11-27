@@ -578,7 +578,7 @@ while 1:
     print('Polaczono z: ', address)
 
     sendIDsessionToClient()  # wysylanie id sesji do klienta
-
+#x
 
 
     while 1:
