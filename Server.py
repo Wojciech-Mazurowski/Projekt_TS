@@ -415,7 +415,7 @@ def executeRequest():
             for x in findOperation:
                 clientsocket.send(bytes(x, "utf-8"))
                 sleep(0.05)
-                print("minal sleep na 50 milisekund, wyslana operacja: " + str(x))
+                print("minal sleep na 50 milisekund,  wyslana operacja: " + str(x))
 
             #answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=HS" + "$HS=" + str(stringHistory) + "$ZC=" + str(ZC) + "$"
         else:
