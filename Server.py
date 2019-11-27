@@ -298,7 +298,7 @@ def decodeOperationCode(operationCode):
     global UN
 
     global ZC
-
+    global X
     global DOcounter, ODcounter, MNcounter, DZcounter, POcounter, LOcounter
 
     operationCode = operationCode.split("$", 20)
@@ -309,7 +309,7 @@ def decodeOperationCode(operationCode):
     kod = findOperation[0]
     kod = kod[3:]
     OP = kod
-
+    X = operationCode[3]
     if kod == "RE":
 
         DOcounter = 1
@@ -450,7 +450,7 @@ def decodeOperationCode(operationCode):
 
 def executeRequest():
 
-    global DOcounter, ODcounter, MNcounter, DZcounter, POcounter, LOcounter, OD, WY, ST, OP, ZC, IO
+    global DOcounter, ODcounter, MNcounter, DZcounter, POcounter, LOcounter, OD, WY, ST, OP, ZC, IO, X
 
     if OP == "RE":
         return setID()
@@ -647,11 +647,14 @@ def executeRequest():
 
             answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=HI" + "$ZC=" + str(ZC) + "$"
             clientsocket.send(bytes(answerCode, "utf-8"))
-
-            anwser = findOperation2[0]
-            print("WITAM" + anwser)
-            clientsocket.send(bytes(anwser, "utf-8"))
-            print("wyslana operacja: " + findOperation2[0])
+            if  len(findOperation2)<10:
+                print("to jest X ale taki: " + X)
+                X = int(re.search(r'\d+', X).group())
+                print("X TO: " + str(X))
+                anwser = findOperation2[X-1]
+                print("WITAM " + anwser)
+                clientsocket.send(bytes(anwser, "utf-8"))
+                print("wyslana operacja: " + findOperation2[0])
 
             nowTime = datetime.now()
             year = nowTime.strftime("%Y")
@@ -665,13 +668,6 @@ def executeRequest():
 
 
 
-            answerCode = "ID=" + str(ID) + "$ST=" + "OK" + "$OP=" + "HI" + "$HI=" + str(findOperation2) + "$ZC=" + str(ZC) + "$"
-
-            print("odpowiedz do klienta na id operacji znaleziono: " + str(answerCode))
-
-            print("\nZnaleziono historie dla podanego id operacji dla biezacej sesji.\n")
-
-            print(findOperation2)
 
         else:
 
