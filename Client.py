@@ -82,6 +82,7 @@ def decodeOperationCodeHSIO(operationCode):
     OP = splitedOperationCode[2]
     OP = OP[3:]
     NR = 1
+
     print("Operacja: " + OP)
     if ST != "ER":
         ZC= splitedOperationCode[3]
@@ -100,8 +101,9 @@ def decodeOperationCodeHSIO(operationCode):
 
     if ST!="ER":
         print("\nWyszukane dzialania:")
-        for x in range(NR):
+        for x in range(int(NR)):
             receivedOperationCode = serversocket.recv(1024)
+
             operationCode = str(receivedOperationCode, 'utf-8')
             second = operationCode
 
@@ -190,6 +192,27 @@ def decodeOperationCode(operationCode):
    else:
        print("Wystapil nieoczekiwany blad :(")
 
+def InputLiczby():
+    global z1
+    global z2
+    z1 = input("Wprowadz pierwsza liczbe:")
+    z2 = input("Wprowadz druga liczbe:")
+    while z1.isalpha() or z2.isalpha():
+        print("Zmienne musza byc liczba!")
+        z1 = input("Wprowadz pierwsza liczbe:")
+        z2 = input("Wprowadz druga liczbe:")
+    regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+    while True:
+        if regex.search(z1) == None and regex.search(z2) == None:
+            break
+        else:
+            print("Zmienne musza byc liczba!")
+            z1 = input("Wprowadz pierwsza liczbe:")
+            z2 = input("Wprowadz druga liczbe:")
+
+
+    z1 = int(z1)
+    z2 = int(z2)
 
 def switchMathOperation():
    global z1
@@ -200,42 +223,31 @@ def switchMathOperation():
    choice = input("\nWybierz operacje matematyczna, ktora chcesz wykonac (podaj numer): ")
    if choice == "1":
        print("\nWybrano dodawanie:")
-       z1 = input("Wprowadz pierwsza liczbe:")
-       z2 = input("Wprowadz druga liczbe:")
+       InputLiczby()
        iddod = iddod +1
    if choice == "2":
        print("\nWybrano odejmowanie:")
-       z1 = input("Wprowadz pierwsza liczbe:")
-       z2 = input("Wprowadz druga liczbe:")
+       InputLiczby()
        idode = idode + 1
    if choice == "3":
        print("\nWybrano mnozenie:")
-       z1 = input("Wprowadz pierwsza liczbe:")
-       z2 = input("Wprowadz druga liczbe:")
+       InputLiczby()
        idmno = idmno + 1
    if choice == "4":
        print("\nWybrano dzielenie:")
-       z1 = input("Wprowadz pierwsza liczbe:")
-       z2 = input("Wprowadz druga liczbe:")
+       InputLiczby()
        iddzi = iddzi +1
    if choice == "5":
        print("\nWybrano potegowanie:")
-       z1 = input("Wprowadz pierwsza liczbe:")
-       z2 = input("Wprowadz druga liczbe:")
+       InputLiczby()
        idpot = idpot + 1
    if choice == "6":
        print("\nWybrano logarytmowanie:")
-       z1 = input("Wprowadz podstawe:")
-       z2 = input("wprowadz liczbe do logarytmowania")
+       InputLiczby()
        idlog = idlog + 1
 
 
-   while z1.isalpha() or z2.isalpha():
-        print("Zmienne musza byc liczba!")
-        z1 = input("Podaj pierwsza LICZBE: ")
-        z2 = input("Podaj druga LICZBE: ")
-   z1=int(z1)
-   z2=int(z2)
+
    return {
        '1': "dodawaj", #dodawanie
        '2': "odejmuj", #odejmowanie
