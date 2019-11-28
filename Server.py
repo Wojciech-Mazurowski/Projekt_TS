@@ -2,6 +2,7 @@ import math
 import re
 import socket
 import datetime
+import sys
 import time
 from _datetime import datetime
 from time import sleep
@@ -278,6 +279,8 @@ def decodeOperationCode(operationCode):
 def executeRequest():
 
     global DOcounter, ODcounter, MNcounter, DZcounter, POcounter, LOcounter, OD, WY, ST, OP, ZC, IO, X
+    if OP == "FN":
+        sys.exit()
     if OP == "RE":
         return setID()
     if OP == "dodawaj" or OP == "odejmuj" or OP == "mnoz" or OP == "dziel" or OP == "poteguj" or OP == "logarytmuj":

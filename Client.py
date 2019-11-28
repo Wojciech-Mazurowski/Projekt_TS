@@ -328,6 +328,17 @@ def AskForHistoryByID():
    wiadomosc = "ID=" + str(decodeID) + "$ST=" + "null" + "$OP=" + "HS" +  "$HS=" + IDS + "$ZC=" + ZC +"$" #w kazdej wiadomosci ma byc wysylane id biezacej sesji dltego id = id sesji
    serversocket.send(bytes(wiadomosc, 'utf-8'))
 
+def EndSession():
+    nowTime = datetime.now()
+    year = nowTime.strftime("%Y")
+    month = nowTime.strftime("%m")
+    day = nowTime.strftime("%d")
+    time = nowTime.strftime("%H:%M:%S")
+    ZC = nowTime.strftime("%d/%m/%Y,%H:%M:%S")
+
+    wiadomosc = "ID=" + str(decodeID) + "$ST=" + "null" + "$OP=" + "FN" + "$ZC=" + ZC + "$"  # w kazdej wiadomosci ma byc wysylane id biezacej sesji dltego id = id sesji
+    serversocket.send(bytes(wiadomosc, 'utf-8'))
+
 def AskForHistoryByIO():
    IDOP = input("Podaj indentyfikator operacji:")
    nowTime = datetime.now()
@@ -347,6 +358,7 @@ while 1:
     #dziala
    if operation == "FN":
        print ("Zakonczono dzialanie programu, rozlaczono z serwerem.")
+       EndSession()
        serversocket.close()
        break
    elif operation == "HS":
