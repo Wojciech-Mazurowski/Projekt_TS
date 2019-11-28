@@ -336,14 +336,14 @@ def executeRequest():
                 WY = "null"
 
         if OP == 'poteguj':
-
-            WY = power(Z1, Z2)
-
-            IO = "poteguj" + str(POcounter)
-
-            POcounter += 1
-
-            ST = "OK"
+            try:
+                WY = power(Z1, Z2)
+                IO = "poteguj" + str(POcounter)
+                POcounter += 1
+                ST = "OK"
+            except Exception as e:
+                ST="ER"
+                pass
 
         if OP == 'logarytmuj':
 
@@ -399,7 +399,7 @@ def executeRequest():
             clientsocket.send(bytes(answerCode, "utf-8"))
             for x in findOperation:
                 clientsocket.send(bytes(x, "utf-8"))
-                sleep(0.1)
+               # sleep(0.2)
                 print("minal sleep na 50 milisekund,  wyslana operacja: " + str(x))
 
             #answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=HS" + "$HS=" + str(stringHistory) + "$ZC=" + str(ZC) + "$"
@@ -575,7 +575,6 @@ while 1:
         operationCode = listenIncomingRequest()  # nasluchiwanie na przyjscie zapytania
 
         decodeOperationCode(operationCode)
-
         if len(operationCode) != 24:
 
             sendAnswerForRequest()
