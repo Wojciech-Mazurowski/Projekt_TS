@@ -127,9 +127,11 @@ def decodeOperationCodeHSIO(operationCode):
             ZC = ZC[3:]
             print("ZC: " + ZC)
 
+
             ID = splitedOperationCode[4]
             ID = ID[3:]
             print("\nID sesji: " + ID)
+
             ST = splitedOperationCode[5]
             ST = ST[3:]
             print("Status: " + ST)
@@ -138,18 +140,22 @@ def decodeOperationCodeHSIO(operationCode):
             IO = IO[3:]
             print("ID operacji: " + IO)
 
-            ZC1 = splitedOperationCode[7]
+            OP  = splitedOperationCode[7]
+            OP = OP[3:]
+            print("Operacja: " + OP)
+
+            ZC1 = splitedOperationCode[8]
             ZC1 = ZC1[3:]
             print("Zmienna 1: " + ZC1)
 
-            ZC2 = splitedOperationCode[8]
+            ZC2 = splitedOperationCode[9]
             ZC2 = ZC2[3:]
             print("Zmienna 2: " + ZC2)
 
-            WY = splitedOperationCode[9]
+            WY = splitedOperationCode[10]
             WY = WY[3:]
             print("Wynik: " + WY)
-            ZC = splitedOperationCode[10]
+            ZC = splitedOperationCode[11]
             ZC = ZC[3:-1]
             print("ZC: " + ZC)
 

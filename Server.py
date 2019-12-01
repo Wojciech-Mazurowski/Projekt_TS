@@ -48,32 +48,26 @@ def setID():  # funkcja tworzaca 6 cyfrowy identyfikator sesji, jest to godzina 
 
 
 def add(a, b):
-
     return a + b
 
 
 def subtract(a, b):
-
     return a - b
 
 
 def multiply(a, b):
-
     return a * b
 
 
 def divide(a, b):
-
     return a / b
 
 
 def log(a, b):
-
     return math.log(a, b)
 
 
 def power(a, b):
-
     return math.pow(a, b)
 
 
@@ -261,17 +255,13 @@ def decodeOperationCode(operationCode):
         OP = OP[3:]
 
         if OP == "HS":
-
             HS = splitedOperationCode[3]
             HS = HS[3:-1]
             # print("hHS: " + HS)
-
         if OP == "HI":
-
             HI = splitedOperationCode[3]
             HI = HI[3:-1]
             # print("hHI: " + HI)
-
         ZC = splitedOperationCode[4]
         ZC = ZC[3:-1]
 
@@ -286,75 +276,56 @@ def executeRequest():
     if OP == "dodawaj" or OP == "odejmuj" or OP == "mnoz" or OP == "dziel" or OP == "poteguj" or OP == "logarytmuj":
 
         if OP == 'dodawaj':
-
             WY = add(Z1, Z2)
-
-            IO = "dodawaj" + str(DOcounter)
-
+            IO = str(DOcounter)
             DOcounter += 1
-
             ST = "OK"
 
         if OP == 'odejmuj':
-
             WY = subtract(Z1, Z2)
-
-            IO = "odejmuj" + str(ODcounter)
-
+            IO = str(ODcounter)
             ODcounter += 1
-
             ST = "OK"
 
         if OP == 'mnoz':
-
             WY = multiply(Z1, Z2)
-
-            IO = "mnoz" + str(MNcounter)
-
+            IO = str(MNcounter)
             MNcounter += 1
-
             ST = "OK"
 
         if OP == 'dziel':
-
             if Z2 != 0:
-
                 WY = divide(Z1, Z2)
-
-                IO = "dziel" + str(DZcounter)
-
+                IO = str(DZcounter)
                 DZcounter += 1
-
                 ST = "OK"
-
             else:
-
                 print("dzielenie przez zero")
-
-                ST = "ER"
-
-                WY = "null"
+                IO = str(DZcounter)
+                DZcounter += 1
+                ST = "ER1"
+                #WY = "null"
 
         if OP == 'poteguj':
             try:
                 WY = power(Z1, Z2)
-                IO = "poteguj" + str(POcounter)
+                IO = str(POcounter)
                 POcounter += 1
                 ST = "OK"
             except Exception as e:
-                ST="ER"
+                ST = "ER2"
+                IO = str(POcounter)
+                POcounter += 1
                 pass
 
         if OP == 'logarytmuj':
-
             if Z1 <= 0 or Z1 == 1 or Z2 <= 0:
-
-                print("dzielenie przez zero")
-                ST = "ER"
+                print("niewlasciwa wartosc")
+                ST = "ER3"
                 WY = "null"
             else:
                 WY = log(Z2, Z1)
-                IO = "logarytmuj" + str(LOcounter)
+                IO = str(LOcounter)
                 LOcounter += 1
                 ST = "OK"
 
@@ -367,16 +338,15 @@ def executeRequest():
         time = nowTime.strftime("%H:%M:%S")
         ZC = nowTime.strftime("%d/%m/%Y,%H:%M:%S")
         #print("ZC: " + ZC)
-
         putToHistory(ZC)
-        answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$WY=" + str(
 
-            WY) + "$ZC=" + str(ZC) + "$"
-
-        print("\nUtworzona odpowiedz: " + answerCode + "\n")
-
+        if ST == "OK":
+            answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$WY=" + str(WY) + "$ZC=" + str(ZC) + "$"
+            print("\nUtworzona odpowiedz: " + answerCode + "\n")
+        else:
+            answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$ZC=" + str(ZC) + "$"
+            print("Error - utworzona odpowiedz: " + answerCode + "\n")
         return answerCode
-
 
 
     #print("od klienta: " + operationCode)
@@ -476,9 +446,6 @@ def executeRequest():
         return 0
 
 
-
-
-
 def listenIncomingRequest():
 
     receivedOperationCode = clientsocket.recv(1024)
@@ -487,16 +454,8 @@ def listenIncomingRequest():
 
     return operationCode
 
-
-
-
-
 def sendIDsessionToClient():
-
     clientsocket.send(bytes(str(setID()), 'utf8'))
-
-
-
 
 
 def sendAnswerForRequest():
@@ -509,7 +468,7 @@ def putToHistory(ZC):
 
     global operationHistory, operationInSessionHistory
 
-    mathOperation = "ID=" + str(ID) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$Z1=" + str(Z1) + "$Z2=" + str(
+    mathOperation = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$Z1=" + str(Z1) + "$Z2=" + str(
 
         Z2) + "$WY=" + str(WY) + "$ZC=" + str(ZC) + "$"
 
@@ -520,62 +479,39 @@ def putToHistory(ZC):
 
 
 def setMathOperation():
-
     global OP
-
     if OP == "DO":
-
         operation = "Dodawanie"
 
     if OP == "OD":
-
         operation = "Odejmowanie"
 
     if OP == "MN":
-
         operation = "Mnozenie"
 
     if OP == "DZ":
-
         operation = "Dzielenie"
 
     if OP == "PO":
-
         operation = "Potegowanie"
 
     if OP == "LO":
-
         operation = "Logarytmowanie"
-
-
-
 
 
 # *** Uruchomienie serwera ***
 
 
-
-
-
 while 1:
-
-
-
     clientsocket, address = serversocket.accept()  # odebranie polaczenia od klienta i akceptacja
-
     startTime = time.time()
-
     print('Polaczono z: ', address)
-
     sendIDsessionToClient()  # wysylanie id sesji do klienta
 #x
 
-
     while 1:
-
         operationCode = listenIncomingRequest()  # nasluchiwanie na przyjscie zapytania
 
         decodeOperationCode(operationCode)
         if len(operationCode) != 24:
-
             sendAnswerForRequest()
