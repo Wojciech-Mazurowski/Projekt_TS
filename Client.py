@@ -102,7 +102,7 @@ def decodeOperationCodeHSIO(operationCode):
     print("ZC: " + ZC)
 
     if ST != "ER":
-        print("\nWyszukane dzialania:")
+        print("\nWyszukane dzialania: ")
         for x in range(int(NR)):
             receivedOperationCode = serversocket.recv(1024)
 
