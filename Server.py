@@ -376,7 +376,6 @@ def executeRequest():
             #answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=HS" + "$HS=" + str(stringHistory) + "$ZC=" + str(ZC) + "$"
         else:
             print("\nNie znaleziono wskazanej sesji.\n")
-            info = "Nie znaleziono wpisow dla podanej sesji."
 
             nowTime = datetime.now()
             year = nowTime.strftime("%Y")
@@ -385,7 +384,7 @@ def executeRequest():
             time = nowTime.strftime("%H:%M:%S")
             ZC = nowTime.strftime("%d/%m/%Y,%H:%M:%S")
 
-            answerCode = "ID=" + str(ID) + "$ST=ER" + "$OP=HS" + "$ZC=" + str(ZC) + "$"
+            answerCode = "ID=" + str(ID) + "$ST=ER4" + "$OP=HS" + "$ZC=" + str(ZC) + "$"
             clientsocket.send(bytes(answerCode, "utf-8"))
 
         return 0
@@ -438,7 +437,7 @@ def executeRequest():
             ZC = nowTime.strftime("%d/%m/%Y,%H:%M:%S")
             print("ZC: " + ZC)
 
-            answerCode = "ID=" + str(ID) + "$ST=" + "ER" + "$OP=" + "HI" + "$HI=" + "null" + "$ZC=" + str(ZC) + "$"
+            answerCode = "ID=" + str(ID) + "$ST=" + "ER5" + "$OP=" + "HI" + "$HI=" + "null" + "$ZC=" + str(ZC) + "$"
             sleep(0.1)
             clientsocket.send(bytes(answerCode, "utf-8"))
             print("odpowiedz do klienta na id operacji nie znaleziono: " + str(answerCode))
