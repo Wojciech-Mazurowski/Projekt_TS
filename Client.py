@@ -99,7 +99,7 @@ def decodeOperationCodeHSIO(operationCode):
     OP = splitedOperationCode[2]
     OP = OP[3:]
     NR = 1
-
+    OP1= "D"
     print("Operacja: " + OP)
     if ST[:2] != "ER":
         ZC = splitedOperationCode[3]
@@ -107,69 +107,79 @@ def decodeOperationCodeHSIO(operationCode):
             NRS = splitedOperationCode[4]
             NRS = NRS[3:]
             NR = int(NRS)
+            OP1 = "HS"
     else:
         ZC = splitedOperationCode[3]
         ReadError(ST)
     ZC = ZC[3:]
     print("ZC: " + ZC)
-
+    i = 0
     if ST[:2] != "ER":
         print("\nWyszukane dzialania: ")
         for x in range(int(NR)):
+            i=0
             receivedOperationCode = serversocket.recv(1024)
 
             operationCode = str(receivedOperationCode, 'utf-8')
-            second = operationCode
-
+            print("test" + operationCode)
             splitedOperationCode = operationCode.split("$", 30)
+            if OP1=="HS":
+                ID = splitedOperationCode[i]
+                ID = ID[3:]
+                print("\nID sesji: " + ID)
+                i=i+1
 
-            ID = splitedOperationCode[0]
+                ST = splitedOperationCode[i]
+                ST = ST[3:]
+                print("Status: " + ST)
+                i = i + 1
+                IO = splitedOperationCode[i]
+                IO = IO[3:]
+                print("ID operacji: " + IO)
+                i = i + 1
+                ZC = splitedOperationCode[i]
+                ZC = ZC[3:]
+                print("ZC: " + ZC)
+                i = i + 1
+
+
+            ID = splitedOperationCode[i]
             ID = ID[3:]
             print("\nID sesji: " + ID)
-
-            ST = splitedOperationCode[1]
+            i = i + 1
+            ST = splitedOperationCode[i]
             ST = ST[3:]
             print("Status: " + ST)
+            i = i + 1
 
-            IO = splitedOperationCode[2]
+            IO = splitedOperationCode[i]
             IO = IO[3:]
             print("ID operacji: " + IO)
+            i = i + 1
 
-            ZC = splitedOperationCode[3]
-            ZC = ZC[3:]
-            print("ZC: " + ZC)
-
-
-            ID = splitedOperationCode[4]
-            ID = ID[3:]
-            print("\nID sesji: " + ID)
-
-            ST = splitedOperationCode[5]
-            ST = ST[3:]
-            print("Status: " + ST)
-
-            IO = splitedOperationCode[6]
-            IO = IO[3:]
-            print("ID operacji: " + IO)
-
-            OP  = splitedOperationCode[7]
+            OP  = splitedOperationCode[i]
             OP = OP[3:]
             print("Operacja: " + OP)
+            i = i + 1
 
-            ZC1 = splitedOperationCode[8]
+            ZC1 = splitedOperationCode[i]
             ZC1 = ZC1[3:]
             print("Zmienna 1: " + ZC1)
+            i = i + 1
 
-            ZC2 = splitedOperationCode[9]
+            ZC2 = splitedOperationCode[i]
             ZC2 = ZC2[3:]
             print("Zmienna 2: " + ZC2)
+            i = i + 1
 
-            WY = splitedOperationCode[10]
+            WY = splitedOperationCode[i]
             WY = WY[3:]
             print("Wynik: " + WY)
-            ZC = splitedOperationCode[11]
+            i = i + 1
+            ZC = splitedOperationCode[i]
             ZC = ZC[3:-1]
             print("ZC: " + ZC)
+            i = i + 1
 
 
 
