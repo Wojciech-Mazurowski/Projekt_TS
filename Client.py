@@ -68,6 +68,17 @@ def listenIncoming():
     operationCode = str(receivedOperationCode, 'utf-8')
     decodeOperationCode(operationCode)
 
+def ReadError(ER):
+    if ER == "ER1":
+        print("Error: Dzielenie przez zero")
+    if ER == "ER2":
+        print("Error: Liczba wychodzi po za zakres zmiennej")
+    if ER == "ER3":
+        print("Error: Niewlasciwe wartosci przy logarytmowaniu")
+    if ER == "ER4":
+        print("Error: Brak historii dla podanej id sesji")
+    if ER == "ER5":
+        print("Error: Brak wskazanej operacji po IO")
 
 def decodeOperationCodeHSIO(operationCode):
     global IS
@@ -90,18 +101,19 @@ def decodeOperationCodeHSIO(operationCode):
     NR = 1
 
     print("Operacja: " + OP)
-    if ST != "ER":
+    if ST[:2] != "ER":
         ZC = splitedOperationCode[3]
         if OP == "HS":
             NRS = splitedOperationCode[4]
             NRS = NRS[3:]
             NR = int(NRS)
     else:
-        ZC = splitedOperationCode[4]
+        ZC = splitedOperationCode[3]
+        ReadError(ST)
     ZC = ZC[3:]
     print("ZC: " + ZC)
 
-    if ST != "ER":
+    if ST[:2] != "ER":
         print("\nWyszukane dzialania: ")
         for x in range(int(NR)):
             receivedOperationCode = serversocket.recv(1024)
