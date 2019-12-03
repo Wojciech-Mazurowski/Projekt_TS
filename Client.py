@@ -202,39 +202,38 @@ def decodeOperationCode(operationCode):
     global Z1
     global Z2
 
-    if len(
-            operationCode) >= 20:  # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
+    # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
 
-        splitedOperationCode = operationCode.split("$", 5)
-        ID = splitedOperationCode[0]
-        ID = ID[3:]
-        print("\nid sesji: " + ID)
+    splitedOperationCode = operationCode.split("$", 5)
+    ID = splitedOperationCode[0]
+    ID = ID[3:]
+    print("\nid sesji: " + ID)
 
-        ST = splitedOperationCode[1]
-        ST = ST[3:]
-        print("status: " + ST)
+    ST = splitedOperationCode[1]
+    ST = ST[3:]
+    print("status: " + ST)
 
-        IO = splitedOperationCode[2]
-        IO = IO[3:]
-        print("ID operacji: " + IO)
+    IO = splitedOperationCode[2]
+    IO = IO[3:]
+    print("ID operacji: " + IO)
 
-        OP = splitedOperationCode[3]
-        OP = OP[3:]
-        print("operacja mat: " + OP)
-        if ST != "ER":
-            WY = splitedOperationCode[4]
-            WY = WY[3:]
-            print("Odpowiedz: " + WY)
-        if ST == "ER":
-            print("Wystapil blad, Podano niewlasciwa wartosc")
+    OP = splitedOperationCode[3]
+    OP = OP[3:]
+    print("operacja mat: " + OP)
+    if ST != "ER":
+        WY = splitedOperationCode[4]
+        WY = WY[3:]
+        print("Odpowiedz: " + WY)
+    if ST[:2] == "ER":
+        ReadError(ST)
 
-        ZC = splitedOperationCode[5]
-        ZC = ZC[3:-1]
-        print("Data, godzina wykonania operacji: " + ZC + "s")
+    ZC = splitedOperationCode[5]
+    ZC = ZC[3:-1]
+    print("Data, godzina wykonania operacji: " + ZC + "s")
 
 
-    else:
-        print("Wystapil nieoczekiwany blad :(")
+
+
 
 
 def InputLiczby():
@@ -272,8 +271,8 @@ def InputLiczby():
             z1 = input("Wprowadz pierwsza liczbe:")
             z2 = input("Wprowadz druga liczbe:")
 
-    z1 = int(float(z1))
-    z2 = int(float(z2))
+    z1 = float(z1)
+    z2 = float(z2)
 
 
 def switchMathOperation():

@@ -227,12 +227,12 @@ def decodeOperationCode(operationCode):
 
         Z1 = Z1[3:]
         print("Z1: " + Z1)
-        Z1 = int(Z1)
+        Z1 = Z1
 
         Z2 = splitedOperationCode[5]
         Z2 = Z2[3:]
         print("Z2: " + Z2)
-        Z2 = int(Z2)
+        Z2 = Z2
 
         ZC = splitedOperationCode[6]
         ZC = ZC[3:-1]
