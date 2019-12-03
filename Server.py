@@ -288,10 +288,13 @@ def executeRequest():
             ST = "OK"
 
         if OP == 'mnoz':
-            WY = multiply(Z1, Z2)
-            IO = str(MNcounter)
-            MNcounter += 1
-            ST = "OK"
+            if Z1 > -2147483646 and Z1 < 2147483646 and Z2 > -2147483646 and Z2 < 2147483646:
+                WY = multiply(Z1, Z2)
+                IO = str(MNcounter)
+                MNcounter += 1
+                ST = "OK"
+            else:
+                ST = "ER2"
 
         if OP == 'dziel':
             if Z2 != 0:
@@ -345,7 +348,7 @@ def executeRequest():
                 answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$WY=" + str(WY) + "$ZC=" + str(ZC) + "$"
                 print("\nUtworzona odpowiedz: " + answerCode + "\n")
             else:
-                answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$ZC=" + str(ZC) + "$"
+                answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$OP=" + str(OP) + "$ZC=" + str(ZC) + "$"
                 print("Error - utworzona odpowiedz: " + answerCode + "\n")
         else:
             answerCode = "ID=" + str(ID) + "$ST=" + "ER2" + "$OP=" + str(OP) + "$ZC=" + str(ZC) + "$"
