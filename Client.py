@@ -220,7 +220,7 @@ def decodeOperationCode(operationCode):
     OP = splitedOperationCode[3]
     OP = OP[3:]
     print("operacja mat: " + OP)
-    if ST != "ER":
+    if ST[:2] != "ER":
         WY = splitedOperationCode[4]
         WY = WY[3:]
         print("Odpowiedz: " + WY)
