@@ -340,12 +340,15 @@ def executeRequest():
         #print("ZC: " + ZC)
         putToHistory(ZC)
 
-        if ST == "OK":
-            answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$WY=" + str(WY) + "$ZC=" + str(ZC) + "$"
-            print("\nUtworzona odpowiedz: " + answerCode + "\n")
+        if WY > -2147483646 and WY < 2147483646:
+            if ST == "OK":
+                answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$WY=" + str(WY) + "$ZC=" + str(ZC) + "$"
+                print("\nUtworzona odpowiedz: " + answerCode + "\n")
+            else:
+                answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$ZC=" + str(ZC) + "$"
+                print("Error - utworzona odpowiedz: " + answerCode + "\n")
         else:
-            answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$ZC=" + str(ZC) + "$"
-            print("Error - utworzona odpowiedz: " + answerCode + "\n")
+            answerCode = "ID=" + str(ID) + "$ST=" + "ER2" + "$OP=" + str(OP) + "$ZC=" + str(ZC) + "$"
         return answerCode
 
 
@@ -370,8 +373,8 @@ def executeRequest():
             for x in findOperation:
                 x = "ID=" + str(ID) + "$ST=OK" + "$OP=HS" + "$ZC=" + str(ZC) + "$" + x
                 clientsocket.send(bytes(x, "utf-8"))
-               # sleep(0.2)
-                print("minal sleep na 50 milisekund,  wyslana operacja: " + str(x))
+                sleep(0.2)
+                print("minal sleep na 200 milisekund,  wyslana operacja: " + str(x))
 
             #answerCode = "ID=" + str(ID) + "$ST=OK" + "$OP=HS" + "$HS=" + str(stringHistory) + "$ZC=" + str(ZC) + "$"
         else:
@@ -437,7 +440,7 @@ def executeRequest():
             ZC = nowTime.strftime("%d/%m/%Y,%H:%M:%S")
             print("ZC: " + ZC)
 
-            answerCode = "ID=" + str(ID) + "$ST=" + "ER5" + "$OP=" + "HI" + "$HI=" + "null" + "$ZC=" + str(ZC) + "$"
+            answerCode = "ID=" + str(ID) + "$ST=" + "ER5" + "$OP=" + "HI" + "$ZC=" + str(ZC) + "$"
             sleep(0.1)
             clientsocket.send(bytes(answerCode, "utf-8"))
             print("odpowiedz do klienta na id operacji nie znaleziono: " + str(answerCode))
