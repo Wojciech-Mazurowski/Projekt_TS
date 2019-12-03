@@ -203,7 +203,7 @@ def decodeOperationCode(operationCode):
     global Z2
 
     # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
-
+    print("test" + operationCode)
     splitedOperationCode = operationCode.split("$", 5)
     ID = splitedOperationCode[0]
     ID = ID[3:]
@@ -213,22 +213,31 @@ def decodeOperationCode(operationCode):
     ST = ST[3:]
     print("status: " + ST)
 
-    IO = splitedOperationCode[2]
-    IO = IO[3:]
-    print("ID operacji: " + IO)
 
-    OP = splitedOperationCode[3]
-    OP = OP[3:]
-    print("operacja mat: " + OP)
     if ST[:2] != "ER":
+        IO = splitedOperationCode[2]
+        IO = IO[3:]
+        print("ID operacji: " + IO)
+
+        OP = splitedOperationCode[3]
+        OP = OP[3:]
+        print("operacja mat: " + OP)
+
         WY = splitedOperationCode[4]
         WY = WY[3:]
+        ZC = splitedOperationCode[5]
+        ZC = ZC[3:-1]
         print("Odpowiedz: " + WY)
     if ST[:2] == "ER":
         ReadError(ST)
+        OP = splitedOperationCode[2]
+        OP = OP[3:]
+        print("Operacja: " + OP)
+        ZC = splitedOperationCode[3]
+        ZC = ZC[3:]
 
-    ZC = splitedOperationCode[5]
-    ZC = ZC[3:-1]
+
+
     print("Data, godzina wykonania operacji: " + ZC + "s")
 
 
