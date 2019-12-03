@@ -121,7 +121,6 @@ def decodeOperationCodeHSIO(operationCode):
             receivedOperationCode = serversocket.recv(1024)
 
             operationCode = str(receivedOperationCode, 'utf-8')
-            print("test" + operationCode)
             splitedOperationCode = operationCode.split("$", 30)
             if OP1=="HS":
                 ID = splitedOperationCode[i]
@@ -243,10 +242,27 @@ def InputLiczby():
     global z2
     z1 = input("Wprowadz pierwsza liczbe:")
     z2 = input("Wprowadz druga liczbe:")
+    for x in range(len(z1)):
+        try:
+            if(z1[x].isalpha()):
+                print("Zmienne musza byc liczba!")
+                z1 = input("Wprowadz pierwsza liczbe:")
+        except Exception as e:
+            pass
+
+    for x in range(len(z2)):
+        try:
+            if (z2[x].isalpha()):
+                print("Zmienne musza byc liczba!")
+                z2 = input("Wprowadz druga liczbe:")
+        except Exception as e:
+            pass
+
     while z1.isalpha() or z2.isalpha():
         print("Zmienne musza byc liczba!")
         z1 = input("Wprowadz pierwsza liczbe:")
         z2 = input("Wprowadz druga liczbe:")
+
     regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
     while True:
         if regex.search(z1) == None and regex.search(z2) == None:
