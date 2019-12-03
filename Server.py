@@ -341,10 +341,10 @@ def executeRequest():
         time = nowTime.strftime("%H:%M:%S")
         ZC = nowTime.strftime("%d/%m/%Y,%H:%M:%S")
         #print("ZC: " + ZC)
-        putToHistory(ZC)
 
         if float(WY) > -2147483646 and float(WY) < 2147483646:
             if ST == "OK":
+                putToHistory(ZC)
                 answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$WY=" + str(WY) + "$ZC=" + str(ZC) + "$"
                 print("\nUtworzona odpowiedz: " + answerCode + "\n")
             else:
