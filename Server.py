@@ -227,12 +227,12 @@ def decodeOperationCode(operationCode):
 
         Z1 = Z1[3:]
         print("Z1: " + Z1)
-        Z1 = Z1
+        Z1 = float(Z1)
 
         Z2 = splitedOperationCode[5]
         Z2 = Z2[3:]
         print("Z2: " + Z2)
-        Z2 = Z2
+        Z2 = float(Z2)
 
         ZC = splitedOperationCode[6]
         ZC = ZC[3:-1]
@@ -340,7 +340,7 @@ def executeRequest():
         #print("ZC: " + ZC)
         putToHistory(ZC)
 
-        if WY > -2147483646 and WY < 2147483646:
+        if float(WY) > -2147483646 and float(WY) < 2147483646:
             if ST == "OK":
                 answerCode = "ID=" + str(ID) + "$ST=" + str(ST) + "$IO=" + str(IO) + "$OP=" + str(OP) + "$WY=" + str(WY) + "$ZC=" + str(ZC) + "$"
                 print("\nUtworzona odpowiedz: " + answerCode + "\n")
