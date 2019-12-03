@@ -322,7 +322,7 @@ def executeRequest():
             if Z1 <= 0 or Z1 == 1 or Z2 <= 0:
                 print("niewlasciwa wartosc")
                 ST = "ER3"
-                WY = "null"
+                WY = "0"
             else:
                 WY = log(Z2, Z1)
                 IO = str(LOcounter)
