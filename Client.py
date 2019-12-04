@@ -8,7 +8,7 @@ from re import split
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # utworzenie gniazda
 
 
-def connectingg():
+def connectingg():                                  #resetowanie odpowiednich wartosci oraz oczekiwanie na polaczenie
     global iddod, idode, idmno, iddzi, idpot, idlog
     global id
     IPw = input("Podaj IP serwera: ")
@@ -35,8 +35,6 @@ def connectingg():
             czas = czas[3:]
             print("\nPolaczono z serwerem. Twoj identyfikator sesji to: ", decodeID, sep="")
             print("Znacznik czasu: ", czas)
-            # gwiazdka i ten sep musi byc, bo regex po wyciagnieciu danej wartosci wrzuca ja do listy
-            # i wtedy wyswietla z nawiasami kwadratowymi i rownoscia, dzieki temu wyswietla tylko sama wartosc
         except Exception as e:
             pass
 
@@ -46,7 +44,7 @@ z2 = 0
 connectingg()
 
 
-def switchOperation():
+def switchOperation():                                  #menu główne, zwraca odpowiedni wybór
     print("\n0. Zakonczenie dzialania programu.")
     print("1. Historia obliczen przez podanie ID sesji.")
     print("2. Historia obliczen przez podanie ID obliczen.")
@@ -63,12 +61,12 @@ def switchOperation():
     }.get(choice, "Podano nieprawidlowy numer operacji.")
 
 
-def listenIncoming():
+def listenIncoming():           #nasłuchiwanie odpowiedzi od serwera
     receivedOperationCode = serversocket.recv(1024)
     operationCode = str(receivedOperationCode, 'utf-8')
     decodeOperationCode(operationCode)
 
-def ReadError(ER):
+def ReadError(ER):              #dekodowanie errorow
     if ER == "ER1":
         print("Error: Dzielenie przez zero")
     if ER == "ER2":
@@ -80,15 +78,16 @@ def ReadError(ER):
     if ER == "ER5":
         print("Error: Brak wskazanej operacji po IO")
 
-def decodeOperationCodeHSIO(operationCode):
+def decodeOperationCodeHSIO(operationCode):         #dekodowanie historii sesji przez ID sesji oraz ID operacji
     global IS
     global IO
     global OP
     global OD
     global Z1
     global Z2
-    splitedOperationCode = operationCode.split("$", 5)
-    ID = splitedOperationCode[0]
+    splitedOperationCode = operationCode.split("$", 5)  #podzielenie wiadomosci przez znak dolara
+
+    ID = splitedOperationCode[0]        #kolejno przypisywanie odpowiednich wartosci oraz wypisywanie ich
     ID = ID[3:]
     print("\nID sesji: " + ID)
 
@@ -101,7 +100,7 @@ def decodeOperationCodeHSIO(operationCode):
     NR = 1
     OP1= "D"
     print("Operacja: " + OP)
-    if ST[:2] != "ER":
+    if ST[:2] != "ER":                  #sprawdzanie czy otrzyamana wiadomosc jest pelna czy wstapil error
         ZC = splitedOperationCode[3]
         if OP == "HS":
             NRS = splitedOperationCode[4]
@@ -114,7 +113,7 @@ def decodeOperationCodeHSIO(operationCode):
     ZC = ZC[3:]
     print("ZC: " + ZC)
     i = 0
-    if ST[:2] != "ER":
+    if ST[:2] != "ER":              #jesli nie bylo errora odbieranie histori sesji oraz wypisywanie jej
         print("\nWyszukane dzialania: ")
         for x in range(int(NR)):
             i=0
@@ -179,22 +178,17 @@ def decodeOperationCodeHSIO(operationCode):
             ZC = ZC[3:-1]
             print("ZC: " + ZC)
             i = i + 1
-
-
-
-
-
     else:
         print("Wystapil blad - nie znaleziono operacji o podanym ID w historii")
 
 
-def listenIncomingHSIO():
+def listenIncomingHSIO():                           #nasluchiwanie na kolejne komunikaty z historii
     receivedOperationCode = serversocket.recv(1024)
     operationCode = str(receivedOperationCode, 'utf-8')
     decodeOperationCodeHSIO(operationCode)
 
 
-def decodeOperationCode(operationCode):
+def decodeOperationCode(operationCode):             #odbieranie wiadomosci oraz dekodowanie jej
     global IS
     global IO
     global OP
@@ -202,9 +196,7 @@ def decodeOperationCode(operationCode):
     global Z1
     global Z2
 
-    # sprawdzanie czy kod dotyczy dzialan matematycznych, jak jest mniejszy niz 50 to chodzi o historie
-    print("test" + operationCode)
-    splitedOperationCode = operationCode.split("$", 5)
+    splitedOperationCode = operationCode.split("$", 5)          #dzielenie otrzymanego komunikatu
     ID = splitedOperationCode[0]
     ID = ID[3:]
     print("\nid sesji: " + ID)
@@ -214,7 +206,7 @@ def decodeOperationCode(operationCode):
     print("status: " + ST)
 
 
-    if ST[:2] != "ER":
+    if ST[:2] != "ER":                  #sprawdzanie czy error a jesli nie to dekodowanie
         IO = splitedOperationCode[2]
         IO = IO[3:]
         print("ID operacji: " + IO)
@@ -228,7 +220,7 @@ def decodeOperationCode(operationCode):
         ZC = splitedOperationCode[5]
         ZC = ZC[3:-1]
         print("Odpowiedz: " + WY)
-    if ST[:2] == "ER":
+    if ST[:2] == "ER":                      #jesli error to odczytaj go i zdekoduj pozostale pola
         ReadError(ST)
         OP = splitedOperationCode[2]
         OP = OP[3:]
@@ -241,47 +233,21 @@ def decodeOperationCode(operationCode):
     print("Data, godzina wykonania operacji: " + ZC + "s")
 
 
-
-
-
-
-def InputLiczby():
+def InputLiczby():          #wprowadzanie liczb oraz sprawdzanie ich poprawnosci
     global z1
     global z2
     z1 = input("Wprowadz pierwsza liczbe:")
     z2 = input("Wprowadz druga liczbe:")
-    for x in range(len(z1)):
-        try:
-            if(z1[x].isalpha()):
-                print("Zmienne musza byc liczba!")
-                z1 = input("Wprowadz pierwsza liczbe:")
-        except Exception as e:
-            pass
-
-    for x in range(len(z2)):
-        try:
-            if (z2[x].isalpha()):
-                print("Zmienne musza byc liczba!")
-                z2 = input("Wprowadz druga liczbe:")
-        except Exception as e:
-            pass
-
-    while z1.isalpha() or z2.isalpha():
-        print("Zmienne musza byc liczba!")
-        z1 = input("Wprowadz pierwsza liczbe:")
-        z2 = input("Wprowadz druga liczbe:")
-
-    regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
     while True:
-        if regex.search(z1) == None and regex.search(z2) == None:
+        try:
+            z1 = float(z1)
+            z2 = float(z2)
             break
-        else:
+        except Exception as e:
             print("Zmienne musza byc liczba!")
             z1 = input("Wprowadz pierwsza liczbe:")
             z2 = input("Wprowadz druga liczbe:")
-
-    z1 = float(z1)
-    z2 = float(z2)
+            pass
 
 
 def switchMathOperation():
@@ -289,7 +255,7 @@ def switchMathOperation():
     global z2
 
     global iddod, idode, idmno, iddzi, idpot, idlog
-    print("1. Dodawanie\n 2. Odejmowanie\n 3. Mnozenie\n 4. Dzielenie\n 5. Potegowanie\n 6. Logarytmowanie\n")
+    print("1. Dodawanie\n 2. Odejmowanie\n 3. Mnozenie\n 4. Dzielenie\n 5. Potegowanie\n 6. Logarytmowanie\n")  #wybieranie operacji oraz zwiekszanie jej ilosci wykonania (potrzebne do ID operacji)
     choice = input("\nWybierz operacje matematyczna, ktora chcesz wykonac (podaj numer): ")
     if choice == "1":
         print("\nWybrano dodawanie:")
@@ -342,7 +308,7 @@ def IDO(Operacja):
         return idlog
 
 
-def CreateAndSendMessage(Operacja):
+def CreateAndSendMessage(Operacja):             #tworzenie wiadomosci z zapytaniem o obliczenia
     if not Operacja == "Podano nieprawidlowy numer operacji.":
         global z1
         global z2
@@ -361,7 +327,7 @@ def CreateAndSendMessage(Operacja):
         return "0"
 
 
-def AskForRelog():
+def AskForRelog():      #tworzenie wiadomosci z zapytaniem o nowe ID sesji
     global decodeID
     nowTime = datetime.now()
     year = nowTime.strftime("%Y")
@@ -373,7 +339,7 @@ def AskForRelog():
     serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 
-def ReceiveID():
+def ReceiveID():            #odbieranie ID sesji
     global decodeID
     id = serversocket.recv(1024)
     idstr = str(id, 'utf8')  # konwertowanie id sesji do formatu utf-8
@@ -387,7 +353,7 @@ def ReceiveID():
     print("Znacznik czasu: ", czas)
 
 
-def AskForHistoryByID():
+def AskForHistoryByID():            #tworzenie oraz wysylanie zapytania o historie przez ID sesji
     global decodeID
     nowTime = datetime.now()
     year = nowTime.strftime("%Y")
@@ -404,7 +370,7 @@ def AskForHistoryByID():
     serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 
-def EndSession():
+def EndSession():       #zakanczanie programu
     nowTime = datetime.now()
     year = nowTime.strftime("%Y")
     month = nowTime.strftime("%m")
@@ -417,7 +383,7 @@ def EndSession():
     serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 
-def AskForHistoryByIO():
+def AskForHistoryByIO():        #tworzenie oraz wysylanie wiadomosci o historie sesji przez id operacji
     IDOP = input("Podaj indentyfikator operacji:")
     nowTime = datetime.now()
     year = nowTime.strftime("%Y")
@@ -432,7 +398,7 @@ def AskForHistoryByIO():
     serversocket.send(bytes(wiadomosc, 'utf-8'))
 
 
-while 1:
+while 1: #glowna petla while
     operation = switchOperation()
     # dziala
     if operation == "FN":
